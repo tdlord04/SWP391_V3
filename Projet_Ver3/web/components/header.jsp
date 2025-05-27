@@ -25,29 +25,29 @@
             <div id="userDropdown" class="dropdown-menu">
 
                 <c:choose>
-                    <c:when test="${empty sessionScope.username || empty sessionScope.role}">
+                    <c:when test="${empty sessionScope.user}">
                         <a href="login.jsp" class="dropdown-item"><i class="fas fa-sign-in-alt"></i> Login</a>
                         <a href="register.jsp" class="dropdown-item"><i class="fas fa-user-plus"></i> Register</a>
                     </c:when>
 
-                    <c:when test="${sessionScope.role == 'customer'}">
-                        <span class="dropdown-item">Hello, ${sessionScope.username}</span>
+                    <c:when test="${sessionScope.user.getRole() == 'customer'}">
+                        <span class="dropdown-item">Hello, ${sessionScope.user.getFullName()}</span>
                         <a href="customer/customerInfor.jsp" class="dropdown-item"><i class="fas fa-user"></i> Thông tin cá nhân</a>
                         <a href="#" class="dropdown-item"><i class="fas fa-key"></i> Đổi mật khẩu</a>
                         <a href="#" class="dropdown-item"><i class="fas fa-history"></i> Lịch sử chi tiêu</a>
-                        <a href="logout.jsp" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                        <a href="logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                     </c:when>
 
-                    <c:when test="${sessionScope.role == 'staff'}">
-                        <span class="dropdown-item">${sessionScope.username} (Staff)</span>
+                    <c:when test="${sessionScope.user.getRole() == 'staff'}">
+                        <span class="dropdown-item">${sessionScope.user.getFullName()} (Staff)</span>
                         <a href="#" class="dropdown-item"><i class="fa-solid fa-table-columns"></i>Darkboard</a>
-                        <a href="logout.jsp" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                        <a href="logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                     </c:when>
 
-                    <c:when test="${sessionScope.role == 'admin'}">
-                        <span class="dropdown-item">${sessionScope.username} (Admin)</span>
+                    <c:when test="${sessionScope.user.getRole() == 'admin'}">
+                        <span class="dropdown-item">${sessionScope.user.getFullName()} (Admin)</span>
                         <a href="#" class="dropdown-item"><i class="fa-solid fa-table-columns"></i>Darkboard</a>
-                        <a href="logout.jsp" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                        <a href="logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                     </c:when>
                 </c:choose>
 

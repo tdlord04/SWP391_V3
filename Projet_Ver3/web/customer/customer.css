@@ -14,13 +14,15 @@ body {
     background-attachment: fixed;
 }
 
-.form-container{
+/* FORM CONTAINER */
+.form-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 89vh;
+    height: 89vh; /* Adjust to allow space for header/footer if present */
 }
 
+/* MAIN FORM BOX */
 .form {
     background-color: white;
     padding: 30px 40px;
@@ -28,6 +30,10 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
+    overflow: hidden; /* Rất quan trọng để ẩn các phần hình thức tràn trong quá trình di chuyển */
+    position: relative; /* Định vị cho vị trí các phần con có thể di chuyển */
+    height: auto; /* Cho phép điều chỉnh chiều cao tự động */
+    min-height: 480px; /* Đặt chiều cao tối thiểu để tránh tình trạng form bị sụp xuống quá nhỏ */
 }
 
 h2 {
@@ -36,6 +42,51 @@ h2 {
     color: #333;
 }
 
+/* TAB NAVIGATION (Email/Phone) */
+.form > div.login-tabs { /* Added a class 'login-tabs' to the div for clarity */
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative; /* For the dynamic underline */
+    border-bottom: 1px solid #eee; /* Default subtle underline */
+}
+
+.form > div.login-tabs span {
+    cursor: pointer;
+    padding: 10px 20px; /* Increased padding for easier clicking */
+    margin: 0 5px;
+    transition: all 0.3s ease;
+    font-weight: normal;
+    color: #555; /* Default text color */
+    flex-grow: 1; /* Allows tabs to share space equally */
+    text-align: center;
+    z-index: 1; /* Ensures tabs are above the dynamic underline */
+    position: relative; /* Needed for z-index to work against ::after */
+}
+
+.form > div.login-tabs span.active-method {
+    font-weight: bold;
+    color: #4a69bd;
+}
+
+/* Dynamic underline for tabs */
+.form > div.login-tabs::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; /* Positions it below the border-bottom of the parent div */
+    height: 2px;
+    background-color: #4a69bd;
+    width: 50%; /* Each tab takes up 50% width */
+    transition: transform 0.3s ease-in-out;
+    left: 0; /* Default position for the first tab */
+}
+
+.form > div.login-tabs.active-phone::after {
+    transform: translateX(100%); /* Moves the underline to the right for the second tab */
+}
+
+
+/* COMMON FORM ELEMENT STYLES */
 form input {
     width: 100%;
     padding: 12px 15px;
@@ -74,6 +125,7 @@ form a:hover {
     text-decoration: underline;
 }
 
+/* REMEMBER ME CHECKBOX SECTION */
 .remember-me {
     display: flex;
     align-items: center;
@@ -92,71 +144,44 @@ form a:hover {
     color: #333;
 }
 
-/*=================================================================================*/
-/*=======================            REGISTER               =======================*/
-/*=================================================================================*/
-/* Container for both steps */
-.register-container {
-    display: flex;
-    width: 800px;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
-    background-color: #fff;
+/* FORM TRANSITION STYLES (for method1 and method2) */
+.form #method1,
+.form #method2 {
+    position: absolute; /* Forms stack on top of each other */
+    top: 145px; /* Adjust this value to correctly position below h2 and tabs */
+    left: 0;
+    width: 100%;
+    padding: 0 40px; /* Keep horizontal padding consistent with .form padding */
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for movement and fade */
+    opacity: 1;
+    z-index: 1; /* Ensures forms are above other elements if needed */
 }
 
-/* Wrapper to slide forms */
-.form-wrapper {
-    display: flex;
-    width: 200%;
-    transition: transform 0.6s ease;
+/* State when form is hidden (slides out and fades) */
+.form #method1.hidden {
+    transform: translateX(-100%); /* Slide left */
+    opacity: 0;
+    pointer-events: none; /* Disable interaction when hidden */
 }
 
-/* Shift left when moving to step 2 */
-.register-container.shift-left .form-wrapper {
-    transform: translateX(-100%);
+.form #method2.hidden {
+    transform: translateX(100%); /* Slide right */
+    opacity: 0;
+    pointer-events: none; /* Disable interaction when hidden */
 }
 
-/* Individual form section */
-.form-section {
-    flex: 1 0 100%;
-    padding: 40px;
-    justify-self: center;
-    align-self: center;
+/* State when form is visible (slides to original position and appears) */
+.form #method1:not(.hidden),
+.form #method2:not(.hidden) {
+    transform: translateX(0); /* Slide to original position */
+    opacity: 1;
+    pointer-events: auto; /* Enable interaction when visible */
 }
 
-/* Titles */
-h2 {
-    margin-bottom: 20px;
-    color: #333;
+/* Error message style */
+.error-message {
+    color: red;
     text-align: center;
-}
-
-/* Input fields */
-input,
-select {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-}
-
-/* Buttons */
-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #4a69bd;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
     margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #1e3799;
+    margin-bottom: 10px;
 }
