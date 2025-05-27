@@ -92,7 +92,7 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect("home.jsp");
                     return;
                 } else {
-                    String mess = "Sai mail/têm đăng nhập hoặc mật khẩu!";
+                    String mess = "Sai mail/tên đăng nhập hoặc mật khẩu!";
                     request.setAttribute("mess", mess);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     return;
