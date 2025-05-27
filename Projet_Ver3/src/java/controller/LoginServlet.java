@@ -92,13 +92,13 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect("home.jsp");
                     return;
                 } else {
-                    String mess = "Sai email/têm đăng nhập hoặc mật khẩu!";
+                    String mess = "Sai mail/têm đăng nhập hoặc mật khẩu!";
                     request.setAttribute("mess", mess);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     return;
                 }
             } else {
-                String mess = "Email/tên đăng nhập và mật khẩu không được để trống!";
+                String mess = "Mail/tên đăng nhập và mật khẩu không được để trống!";
                 request.setAttribute("mess", mess);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
@@ -119,16 +119,17 @@ public class LoginServlet extends HttpServlet {
                         return;
                     }
                 } else {
-                    String mess = "Không được bỏ trống số điện thoại và mật khẩu!";
+                    String mess = "Sai số điện thoại!";
                     request.setAttribute("mess", mess);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     return;
                 }
-            } else {
-                String mess = "Email/username and password can't empty!";
-                request.setAttribute("mess", mess);
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
+                
+            }else{
+                String mess = "Không được để trống số điện thoại và mật khẩu!";
+                    request.setAttribute("mess", mess);
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    return;
             }
         }
     }

@@ -27,7 +27,7 @@
 
                 <form id="method1" action="login" method="post">
                     <input type="hidden" name="method" value="1"/>
-                    <input type="text" name="stringlog" placeholder="Email hoặc tên đăng nhập" required />
+                    <input type="text" name="stringlog" placeholder="Mail hoặc tên đăng nhập" required />
                     <input type="password" name="password" placeholder="Mật khẩu" required />
                     <i style="color: red">${mess}</i>
                     <div class="remember-me">
