@@ -27,6 +27,15 @@ public class DBContext {
         }
     }
 
+    public Connection getConnection() throws SQLException {
+        DBContext dbContext = new DBContext();
+        // Kiểm tra xem kết nối có null không trước khi trả về
+        if (dbContext.connection == null) {
+            throw new SQLException("Failed to establish database connection through DBContext.");
+        }
+        return dbContext.connection;
+    }
+
     public boolean isConnected() {
         try {
             return connection != null && !connection.isClosed();
