@@ -30,19 +30,19 @@ prefix="c" %>
         <i class="fas fa-tachometer-alt me-2"></i> Dashboard
       </a>
       <a
-        href="users.jsp"
+        href="customerList.jsp"
         class="list-group-item list-group-item-action py-3 ${param.activePage == 'users' ? 'active' : ''}"
       >
         <i class="fas fa-hotel me-2"></i> Manage Customer
       </a>
       <a
-        href="bookings.jsp"
+        href="bookingsList.jsp"
         class="list-group-item list-group-item-action py-3 ${param.activePage == 'bookings' ? 'active' : ''}"
       >
         <i class="fas fa-calendar-check me-2"></i> Manage Bookings
       </a>
        <a
-        href="promotions.jsp"
+        href="promotionsList.jsp"
         class="list-group-item list-group-item-action py-3 ${param.activePage == 'promotion' ? 'active' : ''}"
       >
         <i class="fas fa-calendar-check me-2"></i> Manage Promotion      
