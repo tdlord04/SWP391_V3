@@ -88,20 +88,18 @@ public class LoginServlet extends HttpServlet {
                 }
                 if (user != null) {
                     HttpSession session = request.getSession();
+                    
                     session.setAttribute("user", user);
                     response.sendRedirect("home.jsp");
-                    return;
                 } else {
                     String mess = "Sai mail/tên đăng nhập hoặc mật khẩu!";
                     request.setAttribute("mess", mess);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
                 }
             } else {
                 String mess = "Mail/tên đăng nhập và mật khẩu không được để trống!";
                 request.setAttribute("mess", mess);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
             }
         } else {
             if (!stringlog.isEmpty()) {
@@ -111,23 +109,19 @@ public class LoginServlet extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.setAttribute("user", user);
                         response.sendRedirect("home.jsp");
-                        return;
                     } else {
                         String mess = "Sai số điện thoại hoặc mật khẩu!";
-                        request.setAttribute("mess", mess);
+                        request.setAttribute("mess2", mess);
                         request.getRequestDispatcher("login.jsp").forward(request, response);
-                        return;
                     }
                 } else {
                     String mess = "Sai số điện thoại!";
-                    request.setAttribute("mess", mess);
+                    request.setAttribute("mess2", mess);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
                 }
-                
             }else{
                 String mess = "Không được để trống số điện thoại và mật khẩu!";
-                    request.setAttribute("mess", mess);
+                    request.setAttribute("mess2", mess);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     return;
             }

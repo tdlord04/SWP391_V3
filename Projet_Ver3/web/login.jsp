@@ -46,6 +46,7 @@
                     <input type="hidden" name="method" value="2"/>
                     <input type="text" name="stringlog" placeholder="Số điện thoại" required />
                     <input type="password" name="password" placeholder="Mật khẩu" required />
+                    <i style="color: red">${mess2}</i>
                     <div class="remember-me">
                         <div>
                             <input type="checkbox" id="rememberMethod2" name="rememberMe" />
