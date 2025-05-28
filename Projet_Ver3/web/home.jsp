@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,15 @@
                         </h4>
                         <p><strong>Giá:</strong> ${room.getRoomPrice()} VND</p>
                         <p><strong>Sức chứa:</strong> ${room.getCapacity()} người</p>
-                        <p>${room.getDescription()}</p>
+                        <c:choose>
+                            <c:when test="${fn:length(room.getDescription()) > 50}">
+                                <p>${fn:substring(room.getDescription(), 0, 50)}...</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p>${room.getDescription()}</p>
+                            </c:otherwise>
+                        </c:choose>
+
                         <a href="roomdetail?id=${room.getId()}" class="view-detail-btn">Xem chi tiết</a>
                     </div>
                 </c:forEach>
