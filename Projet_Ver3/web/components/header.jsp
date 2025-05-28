@@ -12,7 +12,7 @@
 
     <div class="navbar-center">
         <ul class="nav-links">
-            <li><a href="home.jsp">Home</a></li>
+            <li><a href="home">Home</a></li>
             <li><a href="service.jsp">Service</a></li>
             <li><a href="contact.jsp">Contact</a></li>
             <li><a href="about.jsp">About Us</a></li>
