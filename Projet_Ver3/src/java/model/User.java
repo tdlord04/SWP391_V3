@@ -13,26 +13,27 @@ import java.util.Date; // Để sử dụng cho kiểu dữ liệu ngày sinh
 public class User {
     private int id;
     private String userName;
-    private String password; // Thường không nên lưu password dưới dạng clear text trong class hoặc DB
+    private String pass;
     private String fullName;
-    private Date birth; // Hoặc LocalDate nếu bạn dùng Java 8+ và không cần giờ/phút/giây
+    private String password;  // Field for password
     private String gender;
     private String email;
     private String phone;
     private String address;
     private String role;
     private boolean isDeleted;
+    private java.util.Date birth;  // Change birth to Date type
 
     // Constructor mặc định (có thể không cần nếu bạn luôn sử dụng constructor có đối số)
     public User() {
     }
 
     // Constructor đầy đủ đối số
-    public User(int id, String userName, String password, String fullName, Date birth, String gender,
+    public User(int id, String userName, String pass, String fullName, java.util.Date birth, String gender,
                 String email, String phone, String address, String role, boolean isDeleted) {
         this.id = id;
         this.userName = userName;
-        this.password = password;
+        this.pass = pass;
         this.fullName = fullName;
         this.birth = birth;
         this.gender = gender;
@@ -61,12 +62,12 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPass() {
+        return pass;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public String getFullName() {
@@ -77,11 +78,19 @@ public class User {
         this.fullName = fullName;
     }
 
-    public Date getBirth() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public java.util.Date getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(java.util.Date birth) {
         this.birth = birth;
     }
 
