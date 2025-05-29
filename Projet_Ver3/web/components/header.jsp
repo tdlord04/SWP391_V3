@@ -46,7 +46,7 @@
 
                     <c:when test="${sessionScope.user.getRole() == 'admin'}">
                         <span class="dropdown-item">${sessionScope.user.getFullName()} (Admin)</span>
-                        <a href="#" class="dropdown-item"><i class="fa-solid fa-table-columns"></i>Darkboard</a>
+                        <a href="admin/dashboard.jsp" class="dropdown-item"><i class="fa-solid fa-table-columns"></i>Darkboard</a>
                         <a href="logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                     </c:when>
                 </c:choose>
