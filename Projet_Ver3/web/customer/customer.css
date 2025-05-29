@@ -185,6 +185,75 @@ form a:hover {
     text-align: center;
 }
 
+/*=================================================================================*/
+/*=======================            REGISTER               =======================*/
+/*=================================================================================*/
+/* Container for both steps */
+.register-container {
+    display: flex;
+    width: 800px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+}
+
+/* Wrapper to slide forms */
+.form-wrapper {
+    display: flex;
+    width: 200%;
+    transition: transform 0.6s ease;
+}
+
+/* Shift left when moving to step 2 */
+.register-container.shift-left .form-wrapper {
+    transform: translateX(-100%);
+}
+
+/* Individual form section */
+.form-section {
+    flex: 1 0 100%;
+    padding: 40px;
+    justify-self: center;
+    align-self: center;
+}
+
+/* Titles */
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* Input fields */
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a69bd;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1e3799;
+}
+
 /*===============================    RoomList    ==================================*/
 /* Danh sach phong */
 /* ROOM LIST WRAPPER */
