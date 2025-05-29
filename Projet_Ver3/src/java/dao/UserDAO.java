@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date; // Sử dụng java.sql.Date cho các thao tác với cơ sở dữ liệu
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +15,10 @@ import model.User;
 
 public class UserDAO {
 
+    private static final String SELECT_ALL_USERS = "SELECT TOP (1000) [id], [user_name], [pass], [full_name], [birth], [gender], [email], [phone], [address], [role], [isDeleted] FROM [dbo].[Users]";
+
     private Connection getConnection() throws SQLException {
         DBContext dbContext = new DBContext();
-        // Kiểm tra xem kết nối có null không trước khi trả về
         if (dbContext.connection == null) {
             throw new SQLException("Failed to establish database connection through DBContext.");
         }
@@ -64,34 +67,43 @@ public class UserDAO {
      */
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String SQL_SELECT_ALL = "SELECT id, user_name, pass, full_name, birth, gender, email, phone, address, role, isDeleted FROM Users";
-        Connection conn;
-        PreparedStatement pstmt;
-        ResultSet rs;
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        
         try {
-            conn = getConnection();
-            pstmt = conn.prepareStatement(SQL_SELECT_ALL);
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
+            connection = getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(SELECT_ALL_USERS);
+            
+            while (resultSet.next()) {
                 User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setUserName(rs.getString("user_name"));
-                user.setPassword(rs.getString("pass"));
-                user.setFullName(rs.getNString("full_name"));
-                user.setBirth(rs.getDate("birth"));
-                user.setGender(rs.getNString("gender"));
-                user.setEmail(rs.getString("email"));
-                user.setPhone(rs.getString("phone"));
-                user.setAddress(rs.getNString("address"));
-                user.setRole(rs.getNString("role"));
-                user.setDeleted(rs.getBoolean("isDeleted"));
+                user.setId(resultSet.getInt("id"));
+                user.setUserName(resultSet.getString("user_name"));
+                user.setPass(resultSet.getString("pass"));
+                user.setFullName(resultSet.getString("full_name"));
+                user.setBirth(resultSet.getDate("birth"));
+                user.setGender(resultSet.getString("gender"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPhone(resultSet.getString("phone"));
+                user.setAddress(resultSet.getString("address"));
+                user.setRole(resultSet.getString("role"));
+                user.setDeleted(resultSet.getBoolean("isDeleted"));
                 users.add(user);
             }
-
+            System.out.println("UserDAO: Successfully fetched " + users.size() + " users from database.");
         } catch (SQLException e) {
-            System.err.println("Error getting all users: " + e.getMessage());
+            System.err.println("UserDAO Error: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            // Đảm bảo đóng tài nguyên theo thứ tự ngược lại
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing database resources: " + e.getMessage());
+            }
         }
         return users;
     }
