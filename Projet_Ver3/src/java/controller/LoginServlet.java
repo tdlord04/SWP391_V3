@@ -8,6 +8,7 @@ import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -58,7 +59,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**
@@ -75,12 +76,13 @@ public class LoginServlet extends HttpServlet {
         String method = request.getParameter("method");
         String stringlog = request.getParameter("stringlog");
         String password = request.getParameter("password");
-        stringlog = stringlog.trim();
+
         UserDAO userdao = new UserDAO();
         User user;
         if (method.equalsIgnoreCase("1")) {
-
-            if (!stringlog.isEmpty()) {
+            String remenberMe = request.getParameter("rememberMe");
+            if (stringlog != null && !stringlog.trim().isEmpty()) {
+                stringlog = stringlog.trim();
                 if (stringlog.contains("@")) {
                     user = userdao.loginByEmail(stringlog, password);
                 } else {
@@ -88,27 +90,49 @@ public class LoginServlet extends HttpServlet {
                 }
                 if (user != null) {
                     HttpSession session = request.getSession();
-                    
+                    Cookie username = new Cookie("username", user.getUserName());
+                    Cookie pass = new Cookie("pass", user.getPassword());
+                    if (remenberMe != null) {
+                        username.setMaxAge(60 * 60 * 24 * 3);
+                        pass.setMaxAge(60 * 60 * 24 * 3);
+                        response.addCookie(username);
+                        response.addCookie(pass);
+                    } else {
+                        username.setMaxAge(-1);
+                    }
                     session.setAttribute("user", user);
-                    response.sendRedirect("home.jsp");
+                    response.sendRedirect("home");
                 } else {
                     String mess = "Sai mail/tên đăng nhập hoặc mật khẩu!";
                     request.setAttribute("mess", mess);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
+
             } else {
                 String mess = "Mail/tên đăng nhập và mật khẩu không được để trống!";
                 request.setAttribute("mess", mess);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } else {
-            if (!stringlog.isEmpty()) {
+            String remenberMe = request.getParameter("rememberMe");
+            if (stringlog != null && !stringlog.trim().isEmpty()) {
+                stringlog = stringlog.trim();
                 if (stringlog.matches("\\d+")) {
                     user = userdao.loginByPhone(stringlog, password);
                     if (user != null) {
                         HttpSession session = request.getSession();
+                        Cookie username = new Cookie("username", user.getUserName());
+                        Cookie pass = new Cookie("pass", user.getPassword());
+                        if (remenberMe != null) {
+                            username.setMaxAge(60 * 60 * 24 * 3);
+                            pass.setMaxAge(60 * 60 * 24 * 3);
+                            response.addCookie(username);
+                            response.addCookie(pass);
+                        } else {
+                            username.setMaxAge(-1);
+                        }
                         session.setAttribute("user", user);
-                        response.sendRedirect("home.jsp");
+                        response.sendRedirect("home");
                     } else {
                         String mess = "Sai số điện thoại hoặc mật khẩu!";
                         request.setAttribute("mess2", mess);
@@ -119,11 +143,11 @@ public class LoginServlet extends HttpServlet {
                     request.setAttribute("mess2", mess);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
-            }else{
+            } else {
                 String mess = "Không được để trống số điện thoại và mật khẩu!";
-                    request.setAttribute("mess2", mess);
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
+                request.setAttribute("mess2", mess);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
             }
         }
     }

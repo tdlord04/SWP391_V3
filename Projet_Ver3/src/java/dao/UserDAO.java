@@ -135,6 +135,39 @@ public class UserDAO {
         return null;
     }
 
+    public User getUserByUsername(String username) {
+        String SQL_SELECT_BY_ID = "SELECT id, user_name, pass, full_name, birth, gender, email, phone, address, role, isDeleted FROM Users WHERE user_name = ?";
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(SQL_SELECT_BY_ID);
+            pstmt.setString(1, username);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUserName(rs.getString("user_name"));
+                user.setPassword(rs.getString("pass"));
+                user.setFullName(rs.getNString("full_name"));
+                user.setBirth(rs.getDate("birth"));
+                user.setGender(rs.getNString("gender"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setAddress(rs.getNString("address"));
+                user.setRole(rs.getNString("role"));
+                user.setDeleted(rs.getBoolean("isDeleted"));
+                return user;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting user by ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     /**
      * Cập nhật thông tin người dùng.
      *
