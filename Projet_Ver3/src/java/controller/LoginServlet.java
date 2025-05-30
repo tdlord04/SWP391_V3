@@ -73,12 +73,12 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String method = request.getParameter("method");
         String stringlog = request.getParameter("stringlog");
         String password = request.getParameter("password");
 
         UserDAO userdao = new UserDAO();
         User user;
+<<<<<<< Updated upstream
         if (method.equalsIgnoreCase("1")) {
             String remenberMe = request.getParameter("rememberMe");
             if (stringlog != null && !stringlog.trim().isEmpty()) {
@@ -108,12 +108,31 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
 
+=======
+        if (!stringlog.isEmpty()) {
+            String mess = "";
+            if (stringlog.contains("@")) {
+                mess = "Sai email đăng nhập";
+                user = userdao.loginByEmail(stringlog, password);
+            } else if (stringlog.matches("\\d+")) {
+                mess = "Sai số điện thoại";
+                user = userdao.loginByPhone(stringlog, password);
             } else {
-                String mess = "Mail/tên đăng nhập và mật khẩu không được để trống!";
+                mess = "Sai tên đăng nhập";
+                user = userdao.loginByUsername(stringlog, password);
+            }
+
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                response.sendRedirect("home");
+>>>>>>> Stashed changes
+            } else {
                 request.setAttribute("mess", mess);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } else {
+<<<<<<< Updated upstream
             String remenberMe = request.getParameter("rememberMe");
             if (stringlog != null && !stringlog.trim().isEmpty()) {
                 stringlog = stringlog.trim();
@@ -149,6 +168,11 @@ public class LoginServlet extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
             }
+=======
+            String mess = "Không được để trống số điện thoại và mật khẩu!";
+            request.setAttribute("mess2", mess);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+>>>>>>> Stashed changes
         }
     }
 
