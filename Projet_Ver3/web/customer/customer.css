@@ -105,8 +105,9 @@ form input {
 }
 
 form button {
+    margin: 2px 0;
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     background-color: #4a69bd;
     border: none;
     color: white;
@@ -236,9 +237,49 @@ form a:hover {
     transform: translateY(0); /* trượt lên */
 }
 
+/*==============================================================================*/
+/*============================       Register       ============================*/
+/*==============================================================================*/
+/* Container for both steps */
+.register-container {
+    display: flex;
+    width: 800px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+}
+
+/* Wrapper to slide forms */
+.form-wrapper {
+    display: flex;
+    width: 200%;
+    transition: transform 0.6s ease;
+}
+
+/* Shift left when moving to step 2 */
+.register-container.shift-left .form-wrapper {
+    transform: translateX(-100%);
+}
 
 
+/* Individual form section */
+.form-section {
+    flex: 1 0 100%;
+    padding: 40px;
+    justify-self: center;
+    align-self: center;
+}
 
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
 /*==============================================================================*/
 /*==========================       ROOM DETAIL       ===========================*/
 /*==============================================================================*/

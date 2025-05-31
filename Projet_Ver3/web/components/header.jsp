@@ -7,7 +7,7 @@
 
 <nav class="navbar">
     <div class="navbar-left">
-        <a href="home.jsp" class="logo">MyLogo</a>
+        <a href="home" class="logo">MyLogo</a>
     </div>
 
     <div class="navbar-center">

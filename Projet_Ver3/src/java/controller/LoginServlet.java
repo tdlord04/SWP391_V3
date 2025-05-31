@@ -75,104 +75,41 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String stringlog = request.getParameter("stringlog");
         String password = request.getParameter("password");
+        String rememberMe = request.getParameter("rememberMe");
 
         UserDAO userdao = new UserDAO();
         User user;
-<<<<<<< Updated upstream
-        if (method.equalsIgnoreCase("1")) {
-            String remenberMe = request.getParameter("rememberMe");
-            if (stringlog != null && !stringlog.trim().isEmpty()) {
-                stringlog = stringlog.trim();
-                if (stringlog.contains("@")) {
-                    user = userdao.loginByEmail(stringlog, password);
-                } else {
-                    user = userdao.loginByUsername(stringlog, password);
-                }
-                if (user != null) {
-                    HttpSession session = request.getSession();
-                    Cookie username = new Cookie("username", user.getUserName());
-                    Cookie pass = new Cookie("pass", user.getPassword());
-                    if (remenberMe != null) {
-                        username.setMaxAge(60 * 60 * 24 * 3);
-                        pass.setMaxAge(60 * 60 * 24 * 3);
-                        response.addCookie(username);
-                        response.addCookie(pass);
-                    } else {
-                        username.setMaxAge(-1);
-                    }
-                    session.setAttribute("user", user);
-                    response.sendRedirect("home");
-                } else {
-                    String mess = "Sai mail/tên đăng nhập hoặc mật khẩu!";
-                    request.setAttribute("mess", mess);
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                }
-
-=======
-        if (!stringlog.isEmpty()) {
-            String mess = "";
-            if (stringlog.contains("@")) {
-                mess = "Sai email đăng nhập";
-                user = userdao.loginByEmail(stringlog, password);
-            } else if (stringlog.matches("\\d+")) {
-                mess = "Sai số điện thoại";
+        if (stringlog != null && stringlog.trim() != null) {
+            if (stringlog.matches("\\d+")) {
                 user = userdao.loginByPhone(stringlog, password);
+            } else if (stringlog.contains("@")) {
+                user = userdao.loginByEmail(stringlog, password);
             } else {
-                mess = "Sai tên đăng nhập";
                 user = userdao.loginByUsername(stringlog, password);
             }
 
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
+                Cookie username = new Cookie("username", user.getUserName());
+                Cookie pass = new Cookie("pass", user.getPassword());
+                if (rememberMe != null) {
+                    username.setMaxAge(60 * 60 * 24 * 3);
+                    pass.setMaxAge(60 * 60 * 24 * 3);
+                    response.addCookie(username);
+                    response.addCookie(pass);
+
+                } else {
+                    username.setMaxAge(-1);
+                }
                 response.sendRedirect("home");
->>>>>>> Stashed changes
             } else {
-                request.setAttribute("mess", mess);
+                request.setAttribute("error", "Sai tài khoản hoặc mật khẩu");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } else {
-<<<<<<< Updated upstream
-            String remenberMe = request.getParameter("rememberMe");
-            if (stringlog != null && !stringlog.trim().isEmpty()) {
-                stringlog = stringlog.trim();
-                if (stringlog.matches("\\d+")) {
-                    user = userdao.loginByPhone(stringlog, password);
-                    if (user != null) {
-                        HttpSession session = request.getSession();
-                        Cookie username = new Cookie("username", user.getUserName());
-                        Cookie pass = new Cookie("pass", user.getPassword());
-                        if (remenberMe != null) {
-                            username.setMaxAge(60 * 60 * 24 * 3);
-                            pass.setMaxAge(60 * 60 * 24 * 3);
-                            response.addCookie(username);
-                            response.addCookie(pass);
-                        } else {
-                            username.setMaxAge(-1);
-                        }
-                        session.setAttribute("user", user);
-                        response.sendRedirect("home");
-                    } else {
-                        String mess = "Sai số điện thoại hoặc mật khẩu!";
-                        request.setAttribute("mess2", mess);
-                        request.getRequestDispatcher("login.jsp").forward(request, response);
-                    }
-                } else {
-                    String mess = "Sai số điện thoại!";
-                    request.setAttribute("mess2", mess);
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                }
-            } else {
-                String mess = "Không được để trống số điện thoại và mật khẩu!";
-                request.setAttribute("mess2", mess);
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
-            }
-=======
-            String mess = "Không được để trống số điện thoại và mật khẩu!";
-            request.setAttribute("mess2", mess);
+            request.setAttribute("error", "Hãy điền tài khoản mật khẩu");
             request.getRequestDispatcher("login.jsp").forward(request, response);
->>>>>>> Stashed changes
         }
     }
 
