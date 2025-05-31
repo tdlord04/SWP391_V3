@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/utilities/font-size/font-size.css">
     <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/utilities/padding/padding.css">
     <!-- Footer 13 - Bootstrap Brain Component -->
-    <footer class="py-3 py-md-5 py-xl-6" style="background-color: rgba(255, 255, 255, 0.7)">
+    <footer class="py-3 py-md-5 py-xl-6" style="background-color: rgba(255, 255, 255, 0.8)">
         <!-- Widgets - Bootstrap Brain Component -->
         <section class="py-4 pb-md-6 pb-xl-7 pb-xxl-10">
             <div class="container">
@@ -30,27 +30,12 @@
                                 </li>
                                 <li class="mb-1">
                                     <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        Our Team
-                                    </a>
-                                </li>
-                                <li class="mb-1">
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
                                         Mission & Values
                                     </a>
                                 </li>
                                 <li class="mb-1">
                                     <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        Company Culture
-                                    </a>
-                                </li>
-                                <li class="mb-1">
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
                                         Contact Us
-                                    </a>
-                                </li>
-                                <li class="mb-1">
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        Careers
                                     </a>
                                 </li>
                             </ul>
@@ -65,26 +50,13 @@
                                         Product Catalog
                                     </a>
                                 </li>
-                                <li class="mb-1">
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        New Arrivals
-                                    </a>
-                                </li>
+
                                 <li class="mb-1">
                                     <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
                                         Best Sellers
                                     </a>
                                 </li>
-                                <li class="mb-1">
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        Product Reviews
-                                    </a>
-                                </li>
-                                <li class="mb-1">
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        Request a Demo
-                                    </a>
-                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -102,16 +74,7 @@
                                         Resources
                                     </a>
                                 </li>
-                                <li class="mb-1">
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        Whitepapers
-                                    </a>
-                                </li>
-                                <li class="mb-1">
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        Infographics
-                                    </a>
-                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -127,11 +90,6 @@
                                 <li class="mb-1">
                                     <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
                                         Help Desk
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#!" class="link-underline-opacity-0 link-opacity-75-hover link-underline-opacity-100-hover link-offset-1 link-dark fw-medium">
-                                        Live Chat
                                     </a>
                                 </li>
                             </ul>
@@ -214,6 +172,5 @@
                 </div>
             </div>
         </div>
-
     </footer>
 </html>
