@@ -53,7 +53,7 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    public int getRoomType() {
+    public int getRoomTypeId() {
         return roomTypeId;
     }
 

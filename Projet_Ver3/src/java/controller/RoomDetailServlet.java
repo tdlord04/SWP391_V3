@@ -63,7 +63,7 @@ public class RoomDetailServlet extends HttpServlet {
         
         //Lay Object phong va loai phong
         Room room = roomdao.getRoomById(id);
-        RoomType roomtype = roomtypedao.getRoomTypeById(room.getRoomType());
+        RoomType roomtype = roomtypedao.getRoomTypeById(room.getRoomTypeId());
         
         request.setAttribute("room", room);
         request.setAttribute("type", roomtype);
