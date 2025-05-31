@@ -16,19 +16,21 @@
     </head>
     <body>
         <jsp:include page="components/header.jsp"/>
+        
+        
         <main>
             <div class="room-list">
                 <c:forEach var="room" items="${roomlist}">
                     <div class="room-card">
                         <img src="${room.getImageUrl()}" alt="Room Image">
-                        <h4>Phòng ${room.getRoomNumber()}</h4>
-                        <h4>
+                        <h5>Phòng ${room.getRoomNumber()}</h5>
+                        <h5>
                             Loại phòng:
                             <c:forEach var="type" items="${requestScope.roomtypes}">
                                 <c:if test="${type.getId() == room.getRoomType()}">${type.getRoomType()}</c:if>
                             </c:forEach>
-                        </h4>
-                        <p><strong>Giá:</strong> ${room.getRoomPrice()} VND</p>
+                        </h5>
+                        <p style="color: red"><strong>Giá:</strong> ${room.getRoomPrice()} VND</p>
                         <p><strong>Sức chứa:</strong> ${room.getCapacity()} người</p>
                         <c:choose>
                             <c:when test="${fn:length(room.getDescription()) > 50}">
@@ -44,5 +46,6 @@
                 </c:forEach>
             </div>
         </main>
+        <jsp:include page="components/footer.jsp"/>
     </body>
 </html>

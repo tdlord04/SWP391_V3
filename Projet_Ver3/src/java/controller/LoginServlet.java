@@ -8,6 +8,7 @@ import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -58,7 +59,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**
@@ -72,59 +73,43 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String method = request.getParameter("method");
         String stringlog = request.getParameter("stringlog");
         String password = request.getParameter("password");
-        stringlog = stringlog.trim();
+        String rememberMe = request.getParameter("rememberMe");
+
         UserDAO userdao = new UserDAO();
         User user;
-        if (method.equalsIgnoreCase("1")) {
-
-            if (!stringlog.isEmpty()) {
-                if (stringlog.contains("@")) {
-                    user = userdao.loginByEmail(stringlog, password);
-                } else {
-                    user = userdao.loginByUsername(stringlog, password);
-                }
-                if (user != null) {
-                    HttpSession session = request.getSession();
-                    
-                    session.setAttribute("user", user);
-                    response.sendRedirect("home.jsp");
-                } else {
-                    String mess = "Sai mail/tên đăng nhập hoặc mật khẩu!";
-                    request.setAttribute("mess", mess);
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                }
+        if (stringlog != null && stringlog.trim() != null) {
+            if (stringlog.matches("\\d+")) {
+                user = userdao.loginByPhone(stringlog, password);
+            } else if (stringlog.contains("@")) {
+                user = userdao.loginByEmail(stringlog, password);
             } else {
-                String mess = "Mail/tên đăng nhập và mật khẩu không được để trống!";
-                request.setAttribute("mess", mess);
+                user = userdao.loginByUsername(stringlog, password);
+            }
+
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                Cookie username = new Cookie("username", user.getUserName());
+                Cookie pass = new Cookie("pass", user.getPassword());
+                if (rememberMe != null) {
+                    username.setMaxAge(60 * 60 * 24 * 3);
+                    pass.setMaxAge(60 * 60 * 24 * 3);
+                    response.addCookie(username);
+                    response.addCookie(pass);
+
+                } else {
+                    username.setMaxAge(-1);
+                }
+                response.sendRedirect("home");
+            } else {
+                request.setAttribute("error", "Sai tài khoản hoặc mật khẩu");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } else {
-            if (!stringlog.isEmpty()) {
-                if (stringlog.matches("\\d+")) {
-                    user = userdao.loginByPhone(stringlog, password);
-                    if (user != null) {
-                        HttpSession session = request.getSession();
-                        session.setAttribute("user", user);
-                        response.sendRedirect("home.jsp");
-                    } else {
-                        String mess = "Sai số điện thoại hoặc mật khẩu!";
-                        request.setAttribute("mess2", mess);
-                        request.getRequestDispatcher("login.jsp").forward(request, response);
-                    }
-                } else {
-                    String mess = "Sai số điện thoại!";
-                    request.setAttribute("mess2", mess);
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                }
-            }else{
-                String mess = "Không được để trống số điện thoại và mật khẩu!";
-                    request.setAttribute("mess2", mess);
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
-            }
+            request.setAttribute("error", "Hãy điền tài khoản mật khẩu");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 

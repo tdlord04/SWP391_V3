@@ -6,16 +6,19 @@ package controller;
 
 import dao.RoomDAO;
 import dao.RoomTypeDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Room;
 import model.RoomType;
+import model.User;
 
 /**
  *
@@ -63,14 +66,33 @@ public class LoadHomeServlet extends HttpServlet {
             throws ServletException, IOException {
         RoomDAO roomdao = new RoomDAO();
         RoomTypeDAO roomtypelist = new RoomTypeDAO();
-        List<Room> roomlist = new ArrayList<>();
-        List<RoomType> roomtypes = new ArrayList<>();
-        roomlist = roomdao.getAllRoom();
-        roomtypes = roomtypelist.getAll();
-        
+        List<Room> roomlist = roomdao.getAllRoom();
+        List<RoomType> roomtypes = roomtypelist.getAll();
+        checkCookie(request);
         request.setAttribute("roomlist", roomlist);
         request.setAttribute("roomtypes", roomtypes);
         request.getRequestDispatcher("home.jsp").forward(request, response);
+    }
+
+    void checkCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            String username = null;
+            String pass = null;
+            for (Cookie cookie : cookies) {
+                switch (cookie.getName()) {
+                    case "username" -> username = cookie.getValue();
+                    case "pass" -> pass = cookie.getValue();
+                }
+            }
+
+            UserDAO dao = new UserDAO();
+            User user = dao.loginByUsername(username, pass);
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+            }
+        }
     }
 
     /**
