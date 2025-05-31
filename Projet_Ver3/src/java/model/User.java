@@ -13,7 +13,6 @@ import java.util.Date; // Để sử dụng cho kiểu dữ liệu ngày sinh
 public class User {
     private int id;
     private String userName;
-    private String pass;
     private String fullName;
     private String password;  // Field for password
     private String gender;
@@ -29,11 +28,10 @@ public class User {
     }
 
     // Constructor đầy đủ đối số
-    public User(int id, String userName, String pass, String fullName, java.util.Date birth, String gender,
+    public User(String userName, String password, String fullName, Date birth, String gender,
                 String email, String phone, String address, String role, boolean isDeleted) {
-        this.id = id;
         this.userName = userName;
-        this.pass = pass;
+        this.password = password;
         this.fullName = fullName;
         this.birth = birth;
         this.gender = gender;
@@ -60,14 +58,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
     }
 
     public String getFullName() {
