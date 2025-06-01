@@ -230,6 +230,37 @@ button:hover {
 }
 
 /*==================== FILTER MODAL ====================*/
+.filter-open-btn {
+    background-color: #4a69bd;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: 200px;
+    max-width: 300px;
+    justify-content: center;
+    margin: 30px auto; /* cách lề trên/dưới và tự căn giữa */
+    display: block;
+    text-align: center;
+}
+
+.filter-open-btn i {
+    font-size: 16px;
+}
+
+.filter-open-btn:hover {
+    background-color: #1e3799;
+    transform: translateY(-2px);
+}
+
 /* MODAL OVERLAY */
 .modal-overlayy {
     position: fixed;

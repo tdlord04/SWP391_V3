@@ -13,6 +13,7 @@
         <title>Home</title>
         <link rel="stylesheet" href="customer/customer.css" />
         <link rel="stylesheet" href="components/component.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     </head>
     <body>
         <jsp:include page="components/header.jsp"/>
@@ -20,7 +21,9 @@
 
         <main>
             <!-- Nút mở bộ lọc -->
-            <button type="button" class="filter-open-btn" onclick="toggleFilter()">🔍 Bộ lọc</button>
+            <button type="button" class="filter-open-btn" onclick="toggleFilter()">
+                <i class="fas fa-filter"></i> Lọc phòng
+            </button>
 
             <!-- Modal -->
             <div id="filterModal" class="modal-overlayy">
