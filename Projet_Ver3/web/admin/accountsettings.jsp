@@ -59,26 +59,34 @@
                   </h5>
                 </div>
                 <div class="card-body">
-                  <form id="profileForm">
+                  <c:if test="${updateSuccess != null}">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      ${updateSuccess}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                  </c:if>
+                  <form id="profileForm" action="${pageContext.request.contextPath}/admin/accountsetting" method="post">
+                    <input type="hidden" name="action" value="updateProfile">
                     <div class="row g-3">
-                      <div class="col-md-6">
-                        <label for="firstName" class="form-label">First Name *</label>
+                      <div class="col-md-12">
+                        <label for="fullName" class="form-label">Full Name *</label>
                         <input
                           type="text"
                           class="form-control"
-                          id="firstName"
-                          value="Admin"
+                          id="fullName"
+                          name="fullName"
+                          value="${userInfo.fullName}"
                           required
                         />
                       </div>
                       <div class="col-md-6">
-                        <label for="lastName" class="form-label">Last Name *</label>
+                        <label for="userName" class="form-label">Username</label>
                         <input
                           type="text"
                           class="form-control"
-                          id="lastName"
-                          value="User"
-                          required
+                          id="userName"
+                          value="${userInfo.userName}"
+                          readonly
                         />
                       </div>
                       <div class="col-md-6">
@@ -87,7 +95,8 @@
                           type="email"
                           class="form-control"
                           id="email"
-                          value="admin@hotel.com"
+                          name="email"
+                          value="${userInfo.email}"
                           required
                         />
                       </div>
@@ -97,7 +106,18 @@
                           type="tel"
                           class="form-control"
                           id="phone"
-                          value="+1 (555) 123-4567"
+                          name="phone"
+                          value="${userInfo.phone}"
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <label for="address" class="form-label">Address</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="address"
+                          name="address"
+                          value="${userInfo.address}"
                         />
                       </div>
                       <div class="col-md-6">
@@ -106,30 +126,29 @@
                           type="text"
                           class="form-control"
                           id="role"
-                          value="System Administrator"
+                          value="${userInfo.role}"
                           readonly
                         />
                       </div>
                       <div class="col-md-6">
-                        <label for="department" class="form-label">Department</label>
-                        <select class="form-select" id="department">
-                          <option value="administration" selected>Administration</option>
-                          <option value="management">Management</option>
-                          <option value="operations">Operations</option>
-                          <option value="it">IT Department</option>
-                        </select>
+                        <label for="gender" class="form-label">Gender</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="gender"
+                          value="${userInfo.gender}"
+                          readonly
+                        />
                       </div>
-
                     </div>
                     <div class="mt-3">
                       <button
-                        type="button"
+                        type="submit"
                         class="btn btn-primary"
-                        onclick="updateProfile()"
                       >
                         <i class="fas fa-save me-2"></i>Update Profile
                       </button>
-                      <button type="button" class="btn btn-outline-secondary">
+                      <button type="reset" class="btn btn-outline-secondary">
                         <i class="fas fa-undo me-2"></i>Reset Changes
                       </button>
                     </div>
@@ -145,7 +164,14 @@
                   </h5>
                 </div>
                 <div class="card-body">
-                  <form id="passwordForm">
+                  <c:if test="${passwordError != null}">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      ${passwordError}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                  </c:if>
+                  <form id="passwordForm" action="${pageContext.request.contextPath}/admin/accountsetting" method="post">
+                    <input type="hidden" name="action" value="changePassword">
                     <div class="row g-3">
                       <div class="col-12">
                         <label for="currentPassword" class="form-label">Current Password *</label>
@@ -153,6 +179,7 @@
                           type="password"
                           class="form-control"
                           id="currentPassword"
+                          name="currentPassword"
                           required
                         />
                       </div>
@@ -162,6 +189,7 @@
                           type="password"
                           class="form-control"
                           id="newPassword"
+                          name="newPassword"
                           required
                         />
                         <div class="form-text">
@@ -174,15 +202,15 @@
                           type="password"
                           class="form-control"
                           id="confirmPassword"
+                          name="confirmPassword"
                           required
                         />
                       </div>
                     </div>
                     <div class="mt-3">
                       <button
-                        type="button"
+                        type="submit"
                         class="btn btn-warning"
-                        onclick="changePassword()"
                       >
                         <i class="fas fa-key me-2"></i>Change Password
                       </button>
