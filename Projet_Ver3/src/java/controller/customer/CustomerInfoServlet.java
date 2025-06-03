@@ -24,19 +24,11 @@ public class CustomerInfoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User loggedInUser = (User) session.getAttribute("user");
         
-        System.out.println("Session ID: " + session.getId());
-        System.out.println("Logged in user from session: " + (loggedInUser != null ? loggedInUser.getUserName() : "null"));
-        
         if (loggedInUser == null) {
             // User not logged in, redirect to login
-            System.out.println("No user in session, redirecting to login");
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        
-        System.out.println("User ID: " + loggedInUser.getId());
-        System.out.println("Username: " + loggedInUser.getUserName());
-        System.out.println("Role: " + loggedInUser.getRole());
         
         // Get user details from database using the logged in user ID
         try {
@@ -63,19 +55,10 @@ public class CustomerInfoServlet extends HttpServlet {
                 user.setRole(rs.getString("role"));
                 user.setDeleted(rs.getInt("isDeleted") == 1);
                 
-                // Debug the retrieved user object
-                System.out.println("Retrieved user from database:");
-                System.out.println("ID: " + user.getId());
-                System.out.println("Username: " + user.getUserName());
-                System.out.println("Full Name: " + user.getFullName());
-                System.out.println("Email: " + user.getEmail());
-                
                 // Set user as request attribute
                 request.setAttribute("user", user);
-                System.out.println("Set user attribute in request");
                 
                 // Forward to customer info page
-                System.out.println("Forwarding to JSP");
                 request.getRequestDispatcher("/customer/customerInfor.jsp").forward(request, response);
             } else {
                 // User not found in database
