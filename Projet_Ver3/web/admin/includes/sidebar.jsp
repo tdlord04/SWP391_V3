@@ -96,8 +96,8 @@ prefix="c" %>
     </h6>
     <div class="list-group list-group-flush">
       <a
-        href="account-settings.jsp"
-        class="list-group-item list-group-item-action py-3 ${param.activePage == 'account-settings' ? 'active' : ''}"
+        href="${pageContext.request.contextPath}/admin/accountsetting"
+        class="list-group-item list-group-item-action py-3 ${param.activePage == 'accountsettings' ? 'active' : ''}"
       >
         <i class="fas fa-user-cog me-2"></i> Account Settings
       </a>
