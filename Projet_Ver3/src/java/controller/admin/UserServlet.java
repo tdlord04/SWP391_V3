@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import dao.UserDAO;
 import model.User;
@@ -32,4 +32,4 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
-} 
+}
