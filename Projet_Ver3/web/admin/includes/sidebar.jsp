@@ -4,7 +4,7 @@ prefix="c" %>
 
 <c:set
   var="isReportActive"
-  value="${param.activePage == 'purchasereport' || param.activePage == 'stockreport' || param.activePage == 'bookingreport'}"
+  value="${param.activePage == 'purchasereport' || param.activePage == 'stockreport' || param.activePage == 'bookingreport' || param.activePage == 'rating'}"
 />
 
 <div class="sidebar-wrapper" id="sidebar-wrapper">
@@ -17,7 +17,7 @@ prefix="c" %>
         <i class="fas fa-tachometer-alt me-2"></i> Dashboard
       </a>
       <a
-        href="${pageContext.request.contextPath}/users"
+        href="users"
         class="list-group-item list-group-item-action py-3 ${param.activePage == 'users' ? 'active' : ''}"
       >
         <i class="fas fa-hotel me-2"></i> Users
@@ -28,6 +28,7 @@ prefix="c" %>
       >
         <i class="fas fa-calendar-check me-2"></i> Manage Bookings
       </a>
+
       <a
         href="#"
         class="list-group-item list-group-item-action py-3 ${isReportActive ? 'active' : ''}"
@@ -60,6 +61,12 @@ prefix="c" %>
             class="list-group-item list-group-item-action py-2 ${param.activePage == 'bookingreport' ? 'active' : ''}"
           >
             <i class="fas fa-chart-line me-2"></i> Booking Reports
+          </a>
+          <a
+            href="ratingreport.jsp"
+            class="list-group-item list-group-item-action py-2 ${param.activePage == 'rating' ? 'active' : ''}"
+          >
+            <i class="fas fa-star me-2"></i> Rating Reports
           </a>
         </div>
       </div>
@@ -109,7 +116,7 @@ prefix="c" %>
   function confirmLogout() {
     if (confirm("Are you sure you want to logout?")) {
       // Invalidate session and redirect
-      fetch("${pageContext.request.contextPath}/logout", {
+      fetch("${pageContext.request.contextPath}/admin/logout", {
         method: "POST",
       }).then(() => {
         window.location.href =
