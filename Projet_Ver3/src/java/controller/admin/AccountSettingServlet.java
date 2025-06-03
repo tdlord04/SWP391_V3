@@ -64,58 +64,100 @@ public class AccountSettingServlet extends HttpServlet {
         User user = userDAO.getUserById(loggedInUser.getId());
         
         if (user != null) {
-            // Get updated values from form
-            String fullName = request.getParameter("fullName");
-            String email = request.getParameter("email");
-            String phone = request.getParameter("phone");
-            String address = request.getParameter("address");
+            // Get the action parameter to determine which form was submitted
+            String action = request.getParameter("action");
             
-            // Current password check and new password handling
-            String currentPassword = request.getParameter("currentPassword");
-            String newPassword = request.getParameter("newPassword");
-            String confirmPassword = request.getParameter("confirmPassword");
-            
-            boolean passwordChanged = false;
-            
-            // Only update password if current password is provided and correct
-            if (currentPassword != null && !currentPassword.isEmpty()) {
-                if (currentPassword.equals(user.getPassword())) {
-                    if (newPassword != null && !newPassword.isEmpty() && newPassword.equals(confirmPassword)) {
-                        user.setPassword(newPassword);
-                        passwordChanged = true;
-                    } else {
-                        // Set error message for password mismatch
-                        session.setAttribute("passwordError", "New password and confirmation do not match");
-                        response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
-                        return;
-                    }
-                } else {
-                    // Set error message for incorrect current password
-                    session.setAttribute("passwordError", "Current password is incorrect");
-                    response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
-                    return;
-                }
-            }
-            
-            // Update user information
-            user.setFullName(fullName);
-            user.setEmail(email);
-            user.setPhone(phone);
-            user.setAddress(address);
-            
-            // Save updated user to database
-            boolean updated = userDAO.updateUser(user);
-            
-            if (updated) {
-                // Update session user information
-                session.setAttribute("user", user);
-                session.setAttribute("updateSuccess", "Profile updated successfully" + 
-                    (passwordChanged ? " (including password)" : ""));
+            if ("updateProfile".equals(action)) {
+                // Handle profile information update
+                handleProfileUpdate(request, response, session, user);
+            } else if ("changePassword".equals(action)) {
+                // Handle password change
+                handlePasswordChange(request, response, session, user);
             } else {
-                session.setAttribute("updateError", "Failed to update profile");
+                // Invalid action
+                response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
             }
-            
-            response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/login");
         }
+    }
+    
+    private void handleProfileUpdate(HttpServletRequest request, HttpServletResponse response, 
+            HttpSession session, User user) throws IOException {
+        // Get updated values from form
+        String fullName = request.getParameter("fullName");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        
+        // Update user information
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setAddress(address);
+        
+        // Save updated user to database
+        boolean updated = userDAO.updateUser(user);
+        
+        if (updated) {
+            // Update session user information
+            session.setAttribute("user", user);
+            session.setAttribute("updateSuccess", "Profile updated successfully");
+        } else {
+            session.setAttribute("updateError", "Failed to update profile");
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
+    }
+    
+    private void handlePasswordChange(HttpServletRequest request, HttpServletResponse response, 
+            HttpSession session, User user) throws IOException {
+        // Current password check and new password handling
+        String currentPassword = request.getParameter("currentPassword");
+        String newPassword = request.getParameter("newPassword");
+        String confirmPassword = request.getParameter("confirmPassword");
+        
+        // Validate passwords
+        if (currentPassword == null || currentPassword.isEmpty()) {
+            session.setAttribute("passwordError", "Current password is required");
+            response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
+            return;
+        }
+        
+        if (!currentPassword.equals(user.getPassword())) {
+            session.setAttribute("passwordError", "Current password is incorrect");
+            response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
+            return;
+        }
+        
+        if (newPassword == null || newPassword.isEmpty()) {
+            session.setAttribute("passwordError", "New password is required");
+            response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
+            return;
+        }
+        
+        if (!newPassword.equals(confirmPassword)) {
+            session.setAttribute("passwordError", "New password and confirmation do not match");
+            response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
+            return;
+        }
+        
+        // Update password
+        user.setPassword(newPassword);
+        
+        // Save updated user to database
+        boolean updated = userDAO.updateUser(user);
+        
+        if (updated) {
+            // Update session user information
+            session.setAttribute("user", user);
+            session.setAttribute("updateSuccess", "Password changed successfully");
+            // Clear any previous password errors
+            session.removeAttribute("passwordError");
+        } else {
+            session.setAttribute("passwordError", "Failed to change password");
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/admin/accountsetting");
     }
 }
