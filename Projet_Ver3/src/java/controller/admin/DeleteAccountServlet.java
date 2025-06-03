@@ -32,7 +32,7 @@ public class DeleteAccountServlet extends HttpServlet {
         }
         
         int userId = loggedInUser.getId();
-        boolean deleted = userDAO.deleteUser(userId);
+        boolean deleted = userDAO.softDeleteUser(userId);
         
         if (deleted) {
             // Invalidate the session
