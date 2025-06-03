@@ -25,6 +25,42 @@
             <div class="container-fluid">
             <h2 class="mb-4">Customer Information</h2>
             
+            <!-- Password success message -->
+            <c:if test="${not empty sessionScope.passwordSuccess}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ${sessionScope.passwordSuccess}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <c:remove var="passwordSuccess" scope="session" />
+            </c:if>
+            
+            <!-- Password error message -->
+            <c:if test="${not empty sessionScope.passwordError}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ${sessionScope.passwordError}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <c:remove var="passwordError" scope="session" />
+            </c:if>
+            
+            <!-- Profile update success message -->
+            <c:if test="${not empty sessionScope.profileSuccess}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ${sessionScope.profileSuccess}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <c:remove var="profileSuccess" scope="session" />
+            </c:if>
+            
+            <!-- Profile update error message -->
+            <c:if test="${not empty sessionScope.profileError}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ${sessionScope.profileError}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <c:remove var="profileError" scope="session" />
+            </c:if>
+            
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card shadow-sm rounded text-center p-4 mb-4">
@@ -149,13 +185,13 @@
                     <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="${pageContext.request.contextPath}/customer/updateProfile" method="post" enctype="multipart/form-data">
+                <form action="${pageContext.request.contextPath}/customer/updateProfile" method="post">
                     <div class="modal-body">
                         <input type="hidden" name="id" value="${user.id}">
                         <div class="mb-3">
                             <label for="userName" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="userName" name="userName" value="${user.userName}" readonly>
-                            <small class="text-muted">Username cannot be changed</small>
+                            <input type="text" class="form-control" id="userName" name="userName" value="${user.userName}" required>
+                            <small class="text-muted">Choose a unique username</small>
                         </div>
                         <div class="mb-3">
                             <label for="fullName" class="form-label">Full Name</label>
