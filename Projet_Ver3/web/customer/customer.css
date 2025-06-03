@@ -23,6 +23,14 @@ body {
     height: 89vh; /* Adjust to allow space for header/footer if present */
 }
 
+.login-form{
+    background-color: white;
+    padding: 30px 40px;
+    width: 80%;
+    max-width: 90%;
+    height: auto;
+}
+
 /* MAIN FORM BOX */
 .form {
     background-color: white;
@@ -97,8 +105,9 @@ form input {
 }
 
 form button {
+    margin: 2px 0;
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     background-color: #4a69bd;
     border: none;
     color: white;
@@ -145,44 +154,207 @@ form a:hover {
     color: #333;
 }
 
-/* FORM TRANSITION STYLES (for method1 and method2) */
-.form #method1,
-.form #method2 {
-    position: absolute; /* Forms stack on top of each other */
-    top: 145px; /* Adjust this value to correctly position below h2 and tabs */
-    left: 0;
-    width: 100%;
-    padding: 0 40px; /* Keep horizontal padding consistent with .form padding */
-    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for movement and fade */
-    opacity: 1;
-    z-index: 1; /* Ensures forms are above other elements if needed */
-}
-
-/* State when form is hidden (slides out and fades) */
-.form #method1.hidden {
-    transform: translateX(-100%); /* Slide left */
-    opacity: 0;
-    pointer-events: none; /* Disable interaction when hidden */
-}
-
-.form #method2.hidden {
-    transform: translateX(100%); /* Slide right */
-    opacity: 0;
-    pointer-events: none; /* Disable interaction when hidden */
-}
-
-/* State when form is visible (slides to original position and appears) */
-.form #method1:not(.hidden),
-.form #method2:not(.hidden) {
-    transform: translateX(0); /* Slide to original position */
-    opacity: 1;
-    pointer-events: auto; /* Enable interaction when visible */
-}
-
 /* Error message style */
 .error-message {
     color: red;
     text-align: center;
+}
+
+/*=================================================================================*/
+/*=======================            REGISTER               =======================*/
+/*=================================================================================*/
+/* Container for both steps */
+.register-container {
+    display: flex;
+    width: 800px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+}
+
+/* Wrapper to slide forms */
+.form-wrapper {
+    display: flex;
+    width: 200%;
+    transition: transform 0.6s ease;
+}
+
+/* Shift left when moving to step 2 */
+.register-container.shift-left .form-wrapper {
+    transform: translateX(-100%);
+}
+
+/* Individual form section */
+.form-section {
+    flex: 1 0 100%;
+    padding: 40px;
+    justify-self: center;
+    align-self: center;
+}
+
+/* Titles */
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* Input fields */
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a69bd;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1e3799;
+}
+
+/*==================== FILTER MODAL ====================*/
+.filter-open-btn {
+    background-color: #4a69bd;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: 200px;
+    max-width: 300px;
+    justify-content: center;
+    margin: 30px auto; /* cách lề trên/dưới và tự căn giữa */
+    display: block;
+    text-align: center;
+}
+
+.filter-open-btn i {
+    font-size: 16px;
+}
+
+.filter-open-btn:hover {
+    background-color: #1e3799;
+    transform: translateY(-2px);
+}
+
+/* MODAL OVERLAY */
+.modal-overlayy {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* MODAL CONTENT: FLEX HÀNG NGANG, CÓ WRAP */
+.modal-contentt {
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 16px;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 90%;
+    width: 80%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    justify-content: center;
+}
+
+/* MỖI NHÓM FILTER */
+.filter-group {
+    flex: 0 1 auto; /* cho phép co giãn theo nội dung, wrap được */
+    min-width: 200px;
+    max-width: 300px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+}
+
+/* LABEL + INPUT */
+.filter-group label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.filter-group input[type="checkbox"],
+.filter-group input[type="date"],
+.filter-group input[type="number"] {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* CHECKBOX STYLE */
+.filter-group .checkbox-option {
+    display: flex;
+    justify-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.checkbox-option input{
+    max-width: 20%;
+}
+
+.checkbox-option label{
+    max-width: 80%;
+}
+
+/* NÚT LỌC */
+.filter-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #4a69bd;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    align-self: center;
+    transition: background-color 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #1e3799;
 }
 
 /*===============================    RoomList    ==================================*/
@@ -195,7 +367,7 @@ form a:hover {
     gap: 24px;
     padding: 40px;
     background-color: rgba(255, 255, 255, 0.7); /* trắng với độ mờ 50% */
-    max-width: 80%;
+    max-width: 90%;
     margin: 20px auto;
     border-radius: 20px;
 }
@@ -209,7 +381,7 @@ form a:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease;
-    width: 200px;
+    width: 250px;
 }
 
 .room-card:hover {
@@ -222,14 +394,14 @@ form a:hover {
     object-fit: cover;
 }
 
-.room-card h4 {
-    margin: 12px 16px 4px;
-    font-size: 18px;
+.room-card h5 {
+    margin: 2px 16px 2px;
+    font-size: 12px;
     color: #333;
 }
 
 .room-card p {
-    margin: 4px 16px 4px;
+    margin: 2px 16px 2px;
     font-size: 14px;
     color: #666;
 }
@@ -262,9 +434,49 @@ form a:hover {
     transform: translateY(0); /* trượt lên */
 }
 
+/*==============================================================================*/
+/*============================       Register       ============================*/
+/*==============================================================================*/
+/* Container for both steps */
+.register-container {
+    display: flex;
+    width: 800px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+}
+
+/* Wrapper to slide forms */
+.form-wrapper {
+    display: flex;
+    width: 200%;
+    transition: transform 0.6s ease;
+}
+
+/* Shift left when moving to step 2 */
+.register-container.shift-left .form-wrapper {
+    transform: translateX(-100%);
+}
 
 
+/* Individual form section */
+.form-section {
+    flex: 1 0 100%;
+    padding: 40px;
+    justify-self: center;
+    align-self: center;
+}
 
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
 /*==============================================================================*/
 /*==========================       ROOM DETAIL       ===========================*/
 /*==============================================================================*/

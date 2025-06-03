@@ -3,24 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.admin;
 
-import dao.RoomDAO;
-import dao.RoomTypeDAO;
+import dao.PromotionDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Room;
-import model.RoomType;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Promotion;
 
 /**
  *
- * @author ADMIN
+ * @author Phạm Quốc Tuấn
  */
-public class RoomDetailServlet extends HttpServlet {
+@WebServlet(name="updatePromotion", urlPatterns={"/updatePromotion"})
+public class updatePromotion extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +42,10 @@ public class RoomDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RoomDetailServlet</title>");  
+            out.println("<title>Servlet updatePromotion</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RoomDetailServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet updatePromotion at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,17 +62,7 @@ public class RoomDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        RoomDAO roomdao = new RoomDAO();
-        RoomTypeDAO roomtypedao = new RoomTypeDAO();
-        
-        //Lay Object phong va loai phong
-        Room room = roomdao.getRoomById(id);
-        RoomType roomtype = roomtypedao.getRoomTypeById(room.getRoomTypeId());
-        
-        request.setAttribute("room", room);
-        request.setAttribute("type", roomtype);
-        request.getRequestDispatcher("roomDetail.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -80,8 +75,49 @@ public class RoomDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        PromotionDao dao = new PromotionDao();
+        request.setCharacterEncoding("UTF-8"); // đảm bảo nhận đúng ký tự Unicode
+
+        String idStr = request.getParameter("id");
+        String title = request.getParameter("title");
+        String percentageStr = request.getParameter("percentage");
+        String startAtStr = request.getParameter("start_at");
+        String endAtStr = request.getParameter("end_at");
+        String description = request.getParameter("description");
+
+        try {
+            int id = Integer.parseInt(idStr);
+            double percentage = Double.parseDouble(percentageStr);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date startAt = sdf.parse(startAtStr);
+            Date endAt = sdf.parse(endAtStr);
+
+            Promotion promotion = new Promotion();
+            promotion.setId(id);
+            promotion.setTitle(title);
+            promotion.setPercentage(percentage);
+            promotion.setStartAt(startAt);
+            promotion.setEndAt(endAt);
+            promotion.setDescription(description);
+
+            boolean success = dao.updatePromotion(promotion);
+
+            if (success) {
+                // Cập nhật thành công, chuyển về trang danh sách promotions
+                response.sendRedirect(request.getContextPath() + "/promotionList");
+            } else {
+                request.setAttribute("error", "Failed to update promotion.");
+                request.getRequestDispatcher("/admin/promotionsList.jsp").forward(request, response);
+            }
+
+        } catch (NumberFormatException | ParseException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Invalid input format.");
+            request.getRequestDispatcher("/admin/promotionsList.jsp").forward(request, response);
+        }
     }
+    
 
     /** 
      * Returns a short description of the servlet.

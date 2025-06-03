@@ -3,24 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.admin;
 
-import dao.RoomDAO;
-import dao.RoomTypeDAO;
+import dao.PromotionDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Room;
-import model.RoomType;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import model.Promotion;
 
 /**
  *
- * @author ADMIN
+ * @author Phạm Quốc Tuấn
  */
-public class RoomDetailServlet extends HttpServlet {
+@WebServlet(name="addPromotion", urlPatterns={"/addPromotion"})
+public class addPromotion extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +40,10 @@ public class RoomDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RoomDetailServlet</title>");  
+            out.println("<title>Servlet addPromotion</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RoomDetailServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet addPromotion at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,17 +60,7 @@ public class RoomDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        RoomDAO roomdao = new RoomDAO();
-        RoomTypeDAO roomtypedao = new RoomTypeDAO();
-        
-        //Lay Object phong va loai phong
-        Room room = roomdao.getRoomById(id);
-        RoomType roomtype = roomtypedao.getRoomTypeById(room.getRoomTypeId());
-        
-        request.setAttribute("room", room);
-        request.setAttribute("type", roomtype);
-        request.getRequestDispatcher("roomDetail.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -80,7 +73,47 @@ public class RoomDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        PromotionDao dao = new PromotionDao();
+        request.setCharacterEncoding("UTF-8"); // đảm bảo nhận đúng ký tự Unicode
+        String title = request.getParameter("title");
+        String percentageStr = request.getParameter("percentage");
+        String startAtStr = request.getParameter("start_at");
+        String endAtStr = request.getParameter("end_at");
+        String description = request.getParameter("description");
+
+        double percentage = 0;
+        Date startAt = null;
+        Date endAt = null;
+
+        try {
+            percentage = Double.parseDouble(percentageStr);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            startAt = sdf.parse(startAtStr);
+            endAt = sdf.parse(endAtStr);
+
+            // Tạo đối tượng Promotion
+            Promotion promotion = new Promotion();
+            promotion.setTitle(title);
+            promotion.setPercentage(percentage);
+            promotion.setStartAt(startAt);
+            promotion.setEndAt(endAt);
+            promotion.setDescription(description);
+
+            boolean success = dao.insertPromotion(promotion);
+
+            if (success) {
+                // Thêm thành công, chuyển về trang danh sách promotions
+                response.sendRedirect(request.getContextPath() + "/promotionList");
+            } else {
+                request.setAttribute("error", "Failed to add promotion.");
+                request.getRequestDispatcher("/reception/promotionsList.jsp").forward(request, response);
+            }
+        } catch (NumberFormatException | ParseException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Invalid input format.");
+            request.getRequestDispatcher("/promotions.jsp").forward(request, response);
+        }
     }
 
     /** 

@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date; // Sử dụng java.sql.Date cho các thao tác với cơ sở dữ liệu
-import java.sql.DriverManager;
 import java.sql.Statement;
 
 import java.util.ArrayList;
@@ -70,17 +69,17 @@ public class UserDAO {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        
+
         try {
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(SELECT_ALL_USERS);
-            
+
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getInt("id"));
                 user.setUserName(resultSet.getString("user_name"));
-                user.setPass(resultSet.getString("pass"));
+                user.setPassword(resultSet.getString("pass"));
                 user.setFullName(resultSet.getString("full_name"));
                 user.setBirth(resultSet.getDate("birth"));
                 user.setGender(resultSet.getString("gender"));
@@ -98,9 +97,15 @@ public class UserDAO {
         } finally {
             // Đảm bảo đóng tài nguyên theo thứ tự ngược lại
             try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 System.err.println("Error closing database resources: " + e.getMessage());
             }
@@ -123,6 +128,39 @@ public class UserDAO {
             conn = getConnection();
             pstmt = conn.prepareStatement(SQL_SELECT_BY_ID);
             pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUserName(rs.getString("user_name"));
+                user.setPassword(rs.getString("pass"));
+                user.setFullName(rs.getNString("full_name"));
+                user.setBirth(rs.getDate("birth"));
+                user.setGender(rs.getNString("gender"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setAddress(rs.getNString("address"));
+                user.setRole(rs.getNString("role"));
+                user.setDeleted(rs.getBoolean("isDeleted"));
+                return user;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting user by ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User getUserByUsername(String username) {
+        String SQL_SELECT_BY_ID = "SELECT id, user_name, pass, full_name, birth, gender, email, phone, address, role, isDeleted FROM Users WHERE user_name = ?";
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(SQL_SELECT_BY_ID);
+            pstmt.setString(1, username);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -243,7 +281,7 @@ public class UserDAO {
         }
         return null;
     }
-    
+
     public User loginByEmail(String email, String password) {
         String SQL_LOGIN = "SELECT id, user_name, pass, full_name, birth, gender, email, phone, address, role, isDeleted FROM Users WHERE email = ? AND pass = ? AND isDeleted = 0";
         Connection conn;
@@ -278,7 +316,7 @@ public class UserDAO {
         }
         return null;
     }
-    
+
     public User loginByPhone(String phone, String password) {
         String SQL_LOGIN = "SELECT id, user_name, pass, full_name, birth, gender, email, phone, address, role, isDeleted FROM Users WHERE phone = ? AND pass = ? AND isDeleted = 0";
         Connection conn;
@@ -326,7 +364,9 @@ public class UserDAO {
             pstmt.setString(1, username);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0;
+                if (rs.getInt(1) > 0) {
+                    return true;
+                }
             }
         } catch (SQLException e) {
             System.err.println("Error checking username existence: " + e.getMessage());
@@ -335,4 +375,23 @@ public class UserDAO {
         return false;
     }
 
+    public static void main(String[] args) {
+        Date birthDate = new Date(2000 - 1900, 1 - 1, 15); 
+
+        // Tạo user mới
+        User newUser = new User(
+                "Customer123", // userName
+                "Customer123", // pass
+                "Nguyễn Văn A", // fullName
+                birthDate, // birth
+                "Nam", // gender
+                "customer123@gmail.com", // email
+                "0123456789", // phone
+                "Hà Nội, Việt Nam", // address
+                "customer", // role
+                false // isDeleted
+        );
+
+        System.out.println(newUser);
+    }
 }

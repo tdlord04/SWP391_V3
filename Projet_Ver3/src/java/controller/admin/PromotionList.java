@@ -2,60 +2,54 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
 
-import dao.RoomDAO;
-import dao.RoomTypeDAO;
-import dao.UserDAO;
+package controller.admin;
+
+import dao.PromotionDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.Room;
-import model.RoomType;
-import model.User;
+import model.Promotion;
 
 /**
  *
- * @author ADMIN
+ * @author Phạm Quốc Tuấn
  */
-public class LoadHomeServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="PromotionList", urlPatterns={"/promotionList"})
+public class PromotionList extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoadHomeServlet</title>");
+            out.println("<title>Servlet PromotionList</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoadHomeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet PromotionList at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,41 +57,15 @@ public class LoadHomeServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        RoomDAO roomdao = new RoomDAO();
-        RoomTypeDAO roomtypelist = new RoomTypeDAO();
-        List<Room> roomlist = roomdao.getAllRoom();
-        List<RoomType> roomtypes = roomtypelist.getAll();
-        checkCookie(request);
-        request.setAttribute("roomlist", roomlist);
-        request.setAttribute("roomtypes", roomtypes);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
-    }
+    throws ServletException, IOException {
+        PromotionDao dao = new PromotionDao();
+        List<Promotion> pro = dao.getAllPromotions();
+        request.setAttribute("pro", pro);
+        request.getRequestDispatcher("admin/promotionsList.jsp").forward(request, response);
+    } 
 
-    void checkCookie(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            String username = null;
-            String pass = null;
-            for (Cookie cookie : cookies) {
-                switch (cookie.getName()) {
-                    case "username" -> username = cookie.getValue();
-                    case "pass" -> pass = cookie.getValue();
-                }
-            }
-
-            UserDAO dao = new UserDAO();
-            User user = dao.loginByUsername(username, pass);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-            }
-        }
-    }
-
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -105,13 +73,12 @@ public class LoadHomeServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override
