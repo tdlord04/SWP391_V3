@@ -4,27 +4,19 @@
  */
 package controller;
 
-import dao.RoomDAO;
-import dao.RoomTypeDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
-import model.Room;
-import model.RoomType;
-import model.User;
 
 /**
  *
  * @author ADMIN
  */
-public class LoadHomeServlet extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +35,10 @@ public class LoadHomeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoadHomeServlet</title>");
+            out.println("<title>Servlet RegisterServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoadHomeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,35 +56,7 @@ public class LoadHomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RoomDAO roomdao = new RoomDAO();
-        RoomTypeDAO roomtypelist = new RoomTypeDAO();
-        List<Room> roomlist = roomdao.getAllRoom();
-        List<RoomType> roomtypes = roomtypelist.getAll();
-        checkCookie(request);
-        request.setAttribute("roomlist", roomlist);
-        request.setAttribute("roomtypes", roomtypes);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
-    }
 
-    void checkCookie(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            String username = null;
-            String pass = null;
-            for (Cookie cookie : cookies) {
-                switch (cookie.getName()) {
-                    case "username" -> username = cookie.getValue();
-                    case "pass" -> pass = cookie.getValue();
-                }
-            }
-
-            UserDAO dao = new UserDAO();
-            User user = dao.loginByUsername(username, pass);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-            }
-        }
     }
 
     /**
@@ -106,7 +70,31 @@ public class LoadHomeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String confirm_password = request.getParameter("confirm_password");
+        UserDAO dao = new UserDAO();
+        if (dao.isUsernameExists(username)) {
+            request.setAttribute("error", "Tên tài khoản đã tồn tại!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (!password.equals(confirm_password)) {
+            request.setAttribute("username", username);
+            request.setAttribute("error", "Mật khẩu và xác nhận mật khẩu không khớp!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (!password.matches(".*[a-zA-Z].*")
+                || // thiếu chữ cái
+                !password.matches(".*\\d.*")
+                || // thiếu số
+                password.length() < 8
+                || password.length() > 16) {
+            request.setAttribute("username", username);
+            request.setAttribute("error", "Mật khẩu phải dài từ 8-16 ký tự và chứa chữ hoa, chữ thường và số!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else {
+            request.setAttribute("username", username);
+            request.setAttribute("password", password);
+            request.getRequestDispatcher("registerdetail.jsp").forward(request, response);
+        }
     }
 
     /**

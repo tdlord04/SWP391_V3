@@ -7,13 +7,13 @@
 
 <nav class="navbar">
     <div class="navbar-left">
-        <a href="home.jsp" class="logo">MyLogo</a>
+        <a href="home" class="logo">MyLogo</a>
     </div>
 
     <div class="navbar-center">
         <ul class="nav-links">
             <li><a href="home">Home</a></li>
-            <li><a href="service.jsp">Service</a></li>
+            <li><a href="service">Service</a></li>
             <li><a href="contact.jsp">Contact</a></li>
             <li><a href="about.jsp">About Us</a></li>
         </ul>

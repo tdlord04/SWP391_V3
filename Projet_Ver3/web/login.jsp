@@ -11,85 +11,92 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Đăng Nhập</title>
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="customer/customer.css" />
         <link rel="stylesheet" href="components/component.css" />
     </head>
     <body>
         <jsp:include page="components/header.jsp"/>
 
-        <div class="form-container">
-            <div class="form">
-                <h2>Đăng Nhập</h2>
-                <div id="loginTabs" class="login-tabs"> <%-- Thêm ID và class 'login-tabs' --%>
-                    <span id="emailLoginTab" onclick="showLoginMethod('email')">Email/Tên đăng nhập</span>
-                    <span id="phoneLoginTab" onclick="showLoginMethod('phone')">Số điện thoại</span>
+        <!-- Login 11 - Bootstrap Brain Component -->
+        <section class="py-3 py-md-5 py-xl-8">
+            <div class="container login-form">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-5">
+                            <h2 class="display-5 fw-bold text-center">Sign in</h2>
+                            <p class="text-center m-0">Don't have an account? <a href="register.jsp">Sign up</a></p>
+                        </div>
+                    </div>
                 </div>
-
-                <form id="method1" action="login" method="post">
-                    <input type="hidden" name="method" value="1"/>
-                    <input type="text" name="stringlog" placeholder="Mail hoặc tên đăng nhập" required />
-                    <input type="password" name="password" placeholder="Mật khẩu" required />
-                    <i style="color: red">${mess}</i>
-                    <div class="remember-me">
-                        <div>
-                            <input type="checkbox" id="rememberMethod1" name="rememberMe" />
-                            <label for="rememberMethod1">Ghi nhớ đăng nhập</label>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10 col-xl-8">
+                        <div class="row gy-5 justify-content-center">
+                            <div class="col-12 col-lg-5">
+                                <form action="login" method="post">
+                                    <div class="row gy-3 overflow-hidden">
+                                        <div class="col-12">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control border-0 border-bottom rounded-0" name="stringlog" id="stringlog" placeholder="Tên đăng nhập, email hoặc sđt" required>
+                                                <label for="stringlog" class="form-label">Tên tài khoản</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating mb-3">
+                                                <input type="password" class="form-control border-0 border-bottom rounded-0" name="password" id="password" value="" placeholder="Password" required>
+                                                <label for="password" class="form-label">Password</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <i style="color: red">${requestScope.error}</i>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row justify-content-between">
+                                                <div class="col-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" name="rememberMe" id="rememberMe">
+                                                        <label class="form-check-label text-secondary" for="rememberMe">
+                                                            Remember me
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="text-end">
+                                                        <a href="resetpassword" class="link-secondary text-decoration-none">Forgot password?</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="d-grid">
+                                                <button class="btn btn-primary btn-lg" type="submit">Log in</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 col-lg-2 d-flex align-items-center justify-content-center gap-3 flex-lg-column">
+                                <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
+                                <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
+                                <div>or</div>
+                                <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
+                                <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
+                            </div>
+                            <div class="col-12 col-lg-5 d-flex align-items-center">
+                                <div class="d-flex gap-3 flex-column w-100 ">
+                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/ProjetVer3/login&response_type=code&client_id=1057973125025-kd5c2msf95r6ok3efmgvv6s3iqj6iav6.apps.googleusercontent.com&approval_prompt=force" class="btn btn-lg btn-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                        <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                                        </svg>
+                                        <span class="ms-2 fs-6">Sign in with Google</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <a href="resetPassword.jsp">Quên mật khẩu</a>
                     </div>
-
-                    <button type="submit">Đăng Nhập</button>
-                    <p>Bạn chưa có tài khoản? <a href="register.jsp">Đăng ký</a></p>
-                </form>
-
-                <form id="method2" action="login" method="post">
-                    <input type="hidden" name="method" value="2"/>
-                    <input type="text" name="stringlog" placeholder="Số điện thoại" required />
-                    <input type="password" name="password" placeholder="Mật khẩu" required />
-                    <i style="color: red">${mess2}</i>
-                    <div class="remember-me">
-                        <div>
-                            <input type="checkbox" id="rememberMethod2" name="rememberMe" />
-                            <label for="rememberMethod2">Ghi nhớ đăng nhập</label>
-                        </div>
-                        <a href="resetPassword.jsp">Quên mật khẩu</a>
-                    </div>
-
-                    <button type="submit">Đăng Nhập</button>
-                    <p>Bạn chưa có tài khoản? <a href="register.jsp">Đăng ký</a></p>
-                </form>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <script>
-            // Hàm để hiển thị form và cập nhật trạng thái active
-            function showLoginMethod(methodType) {
-                var method1Form = document.getElementById('method1');
-                var method2Form = document.getElementById('method2');
-                var emailLoginTab = document.getElementById('emailLoginTab');
-                var phoneLoginTab = document.getElementById('phoneLoginTab');
-                var loginTabsContainer = document.getElementById('loginTabs'); // Lấy container của các tab
-
-                if (methodType === 'email') {
-                    method1Form.classList.remove('hidden');
-                    method2Form.classList.add('hidden');
-                    emailLoginTab.classList.add('active-method');
-                    phoneLoginTab.classList.remove('active-method');
-                    loginTabsContainer.classList.remove('active-phone'); // Xóa class để underline về vị trí email
-                } else if (methodType === 'phone') {
-                    method1Form.classList.add('hidden');
-                    method2Form.classList.remove('hidden');
-                    emailLoginTab.classList.remove('active-method');
-                    phoneLoginTab.classList.add('active-method');
-                    loginTabsContainer.classList.add('active-phone'); // Thêm class để underline chuyển sang phone
-                }
-            }
-
-            // Gọi hàm này khi trang được tải lần đầu để đặt trạng thái ban đầu
-            document.addEventListener('DOMContentLoaded', function () {
-                // Mặc định hiển thị form Email/Tên đăng nhập
-                showLoginMethod('email');
-            });
-        </script>
     </body>
 </html>
