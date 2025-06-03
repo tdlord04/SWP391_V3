@@ -46,7 +46,7 @@ public class AccountSettingServlet extends HttpServlet {
             return;
         }
         
-        request.getRequestDispatcher("/admin/accountsetting.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/accountsettings.jsp").forward(request, response);
     }
     
     @Override
