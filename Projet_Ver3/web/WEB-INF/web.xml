@@ -18,11 +18,11 @@
     </servlet>
     <servlet>
         <servlet-name>UserServlet</servlet-name>
-        <servlet-class>controller.UserServlet</servlet-class>
+        <servlet-class>controller.admin.UserServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DashboardServlet</servlet-name>
-        <servlet-class>controller.DashboardServlet</servlet-class>
+        <servlet-class>controller.admin.DashboardServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ManageAccountServlet</servlet-name>
@@ -58,7 +58,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DashboardServlet</servlet-name>
-        <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/admin/dashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageAccountServlet</servlet-name>

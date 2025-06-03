@@ -11,7 +11,7 @@ prefix="c" %>
   <div class="sidebar-menu">
     <div class="list-group list-group-flush">
       <a
-        href="dashboard.jsp"
+        href="${pageContext.request.contextPath}/admin/dashboard"
         class="list-group-item list-group-item-action py-3 ${param.activePage == 'dashboard' ? 'active' : ''}"
       >
         <i class="fas fa-tachometer-alt me-2"></i> Dashboard
