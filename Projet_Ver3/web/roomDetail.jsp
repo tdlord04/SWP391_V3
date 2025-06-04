@@ -21,12 +21,12 @@
             </div>
 
             <div class="room-info">
-                <h2>Phòng số: ${room.roomNumber}</h2>
-                <p><strong>Loại phòng:</strong> ${room.roomType}</p>
-                <p><strong>Giá phòng:</strong> ${room.roomPrice} VND</p>
-                <p><strong>Trạng thái:</strong> ${room.roomStatus}</p>
-                <p><strong>Sức chứa:</strong> ${room.capacity} người</p>
-                <p><strong>Mô tả:</strong> ${room.description}</p>
+                <h2>Phòng số: ${room.getRoomNumber()}</h2>
+                <p><strong>Loại phòng:</strong> ${roomtype.getRoomtype()}</p>
+                <p><strong>Giá phòng:</strong> ${room.getRoomPrice()} VND</p>
+                <p><strong>Trạng thái:</strong> ${room.getRoomStatus()}</p>
+                <p><strong>Sức chứa:</strong> ${room.getCapacity()} người</p>
+                <p><strong>Mô tả:</strong> ${room.getDescription()}</p>
             </div>
         </div>
     </body>
