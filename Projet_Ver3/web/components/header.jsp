@@ -12,10 +12,10 @@
 
     <div class="navbar-center">
         <ul class="nav-links">
-            <li><a href="home">Home</a></li>
-            <li><a href="service">Service</a></li>
-            <li><a href="contact.jsp">Contact</a></li>
-            <li><a href="about.jsp">About Us</a></li>
+            <li><a href="home">Trang chủ</a></li>
+            <li><a href="service">Dịch vụ</a></li>
+            <li><a href="contact.jsp">Liên hệ</a></li>
+            <li><a href="about.jsp">Chúng tôi</a></li>
         </ul>
     </div>
 
