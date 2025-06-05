@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
           <!-- Search and Filter Form -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Search & Filter Rooms</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Search & Filter Rooms</h6>
             </div>
             <div class="card-body">
               <form action="${pageContext.request.contextPath}/admin/roomlist" method="GET" class="mb-0">
@@ -166,52 +166,6 @@ pageEncoding="UTF-8"%>
                   <p class="card-text text-danger">
                     <i class="fas fa-tools me-1"></i> Under maintenance
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Filter Section -->
-          <div class="card shadow-sm mb-4">
-            <div class="card-body">
-              <div class="row g-3">
-                <div class="col-md-3">
-                  <label class="form-label">Room Type</label>
-                  <select class="form-select" id="roomTypeFilter">
-                    <option value="">All Types</option>
-                    <c:forEach var="type" items="${roomTypes}">
-                      <option value="${type.id}">${type.roomType}</option>
-                    </c:forEach>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label">Status</label>
-                  <select class="form-select">
-                    <option value="">All Status</option>
-                    <option value="available">Available</option>
-                    <option value="occupied">Occupied</option>
-                    <option value="maintenance">Maintenance</option>
-                    <option value="cleaning">Cleaning</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label">Floor</label>
-                  <select class="form-select">
-                    <option value="">All Floors</option>
-                    <option value="1">1st Floor</option>
-                    <option value="2">2nd Floor</option>
-                    <option value="3">3rd Floor</option>
-                    <option value="4">4th Floor</option>
-                    <option value="5">5th Floor</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label">&nbsp;</label>
-                  <div class="d-grid">
-                    <button class="btn btn-outline-primary">
-                      <i class="fas fa-search me-2"></i>Filter
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
