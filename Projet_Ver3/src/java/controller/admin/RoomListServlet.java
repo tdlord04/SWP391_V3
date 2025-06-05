@@ -26,6 +26,15 @@ public class RoomListServlet extends HttpServlet {
         String roomTypeFilter = request.getParameter("roomType");
         String statusFilter = request.getParameter("status");
         String sortBy = request.getParameter("sortBy"); // For sorting functionality
+        String capacityParam = request.getParameter("capacity");
+        Integer capacityFilter = null;
+        if (capacityParam != null && !capacityParam.trim().isEmpty() && !capacityParam.equals("all")) {
+            try {
+                capacityFilter = Integer.parseInt(capacityParam);
+            } catch (NumberFormatException e) {
+                // ignore invalid
+            }
+        }
         
         // Get pagination parameters
         int pageSize = 10; // Default page size
@@ -63,7 +72,7 @@ public class RoomListServlet extends HttpServlet {
         }
         
         // Get total room count for pagination
-        int totalRooms = roomDAO.countFilteredRooms(searchQuery, roomTypeId, statusFilter);
+        int totalRooms = roomDAO.countFilteredRooms(searchQuery, roomTypeId, statusFilter, capacityFilter);
         int totalPages = (int) Math.ceil((double) totalRooms / pageSize);
         
         // Ensure current page is within valid range
@@ -74,9 +83,10 @@ public class RoomListServlet extends HttpServlet {
         // Apply filters and pagination
         if (searchQuery != null && !searchQuery.trim().isEmpty() ||
             roomTypeId != null ||
-            statusFilter != null && !statusFilter.trim().isEmpty() && !statusFilter.equals("all")) {
+            statusFilter != null && !statusFilter.trim().isEmpty() && !statusFilter.equals("all") ||
+            capacityFilter != null) {
             // Get filtered and paginated rooms
-            allRooms = roomDAO.getFilteredRooms(searchQuery, roomTypeId, statusFilter, sortBy, currentPage, pageSize);
+            allRooms = roomDAO.getFilteredRooms(searchQuery, roomTypeId, statusFilter, capacityFilter, sortBy, currentPage, pageSize);
         } else {
             // Get all rooms with pagination if no filters
             allRooms = roomDAO.getRoomsPage(currentPage, pageSize);
@@ -134,6 +144,7 @@ public class RoomListServlet extends HttpServlet {
         request.setAttribute("searchQuery", searchQuery);
         request.setAttribute("roomTypeFilter", roomTypeFilter);
         request.setAttribute("statusFilter", statusFilter);
+        request.setAttribute("capacityFilter", capacityParam);
         request.setAttribute("sortBy", sortBy);
         
         // Check for messages from other servlets (like delete confirmation)

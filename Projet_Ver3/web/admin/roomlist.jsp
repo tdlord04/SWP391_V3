@@ -102,6 +102,19 @@ pageEncoding="UTF-8"%>
                     </select>
                   </div>
                   
+                  <!-- Capacity filter -->
+                  <div class="col-md-2 mb-3">
+                    <label for="capacity" class="form-label">Capacity:</label>
+                    <select class="form-control" id="capacity" name="capacity">
+                      <option value="all" ${capacityFilter == null || capacityFilter == 'all' ? 'selected' : ''}>All</option>
+                      <option value="1" ${capacityFilter == '1' ? 'selected' : ''}>1</option>
+                      <option value="2" ${capacityFilter == '2' ? 'selected' : ''}>2</option>
+                      <option value="3" ${capacityFilter == '3' ? 'selected' : ''}>3</option>
+                      <option value="4" ${capacityFilter == '4' ? 'selected' : ''}>4</option>
+                      <option value="5" ${capacityFilter == '5' ? 'selected' : ''}>5</option>
+                    </select>
+                  </div>
+                  
                   <!-- Submit button -->
                   <div class="col-md-2 mb-3 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
@@ -214,26 +227,26 @@ pageEncoding="UTF-8"%>
                     <tr>
                       <th>#</th>
                       <th>
-                        <a href="${pageContext.request.contextPath}/admin/roomlist?sortBy=roomNumber${not empty searchQuery ? '&search='.concat(searchQuery) : ''}${not empty roomTypeFilter ? '&roomType='.concat(roomTypeFilter) : ''}${not empty statusFilter ? '&status='.concat(statusFilter) : ''}" class="text-dark">
+                        <a href="${pageContext.request.contextPath}/admin/roomlist?sortBy=roomNumber${not empty searchQuery ? '&search='.concat(searchQuery) : ''}${not empty roomTypeFilter ? '&roomType='.concat(roomTypeFilter) : ''}${not empty statusFilter ? '&status='.concat(statusFilter) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}" class="text-dark">
                           Room Number
                           <c:if test="${sortBy == 'roomNumber'}"><i class="fas fa-sort-down ml-1"></i></c:if>
                         </a>
                       </th>
                       <th>Type</th>
                       <th>
-                        <a href="${pageContext.request.contextPath}/admin/roomlist?sortBy=capacity${not empty searchQuery ? '&search='.concat(searchQuery) : ''}${not empty roomTypeFilter ? '&roomType='.concat(roomTypeFilter) : ''}${not empty statusFilter ? '&status='.concat(statusFilter) : ''}" class="text-dark">
+                        <a href="${pageContext.request.contextPath}/admin/roomlist?sortBy=capacity${not empty searchQuery ? '&search='.concat(searchQuery) : ''}${not empty roomTypeFilter ? '&roomType='.concat(roomTypeFilter) : ''}${not empty statusFilter ? '&status='.concat(statusFilter) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}" class="text-dark">
                           Capacity
                           <c:if test="${sortBy == 'capacity'}"><i class="fas fa-sort-down ml-1"></i></c:if>
                         </a>
                       </th>
                       <th>
-                        <a href="${pageContext.request.contextPath}/admin/roomlist?sortBy=price${not empty searchQuery ? '&search='.concat(searchQuery) : ''}${not empty roomTypeFilter ? '&roomType='.concat(roomTypeFilter) : ''}${not empty statusFilter ? '&status='.concat(statusFilter) : ''}" class="text-dark">
+                        <a href="${pageContext.request.contextPath}/admin/roomlist?sortBy=price${not empty searchQuery ? '&search='.concat(searchQuery) : ''}${not empty roomTypeFilter ? '&roomType='.concat(roomTypeFilter) : ''}${not empty statusFilter ? '&status='.concat(statusFilter) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}" class="text-dark">
                           Price
                           <c:if test="${sortBy == 'price'}"><i class="fas fa-sort-down ml-1"></i></c:if>
                         </a>
                       </th>
                       <th>
-                        <a href="${pageContext.request.contextPath}/admin/roomlist?sortBy=status${not empty searchQuery ? '&search='.concat(searchQuery) : ''}${not empty roomTypeFilter ? '&roomType='.concat(roomTypeFilter) : ''}${not empty statusFilter ? '&status='.concat(statusFilter) : ''}" class="text-dark">
+                        <a href="${pageContext.request.contextPath}/admin/roomlist?sortBy=status${not empty searchQuery ? '&search='.concat(searchQuery) : ''}${not empty roomTypeFilter ? '&roomType='.concat(roomTypeFilter) : ''}${not empty statusFilter ? '&status='.concat(statusFilter) : ''}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}" class="text-dark">
                           Status
                           <c:if test="${sortBy == 'status'}"><i class="fas fa-sort-down ml-1"></i></c:if>
                         </a>
