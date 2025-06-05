@@ -42,8 +42,29 @@ pageEncoding="UTF-8"%>
         </nav>
 
         <div class="container-fluid py-4">
-          <h2 class="mb-4">Room Management</h2>
-          
+          <!-- Page Header -->
+          <div class="bg-primary bg-gradient text-white p-4 mb-4 rounded-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h1 class="h2 mb-2">Room Management</h1>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="dashboard.jsp" class="link-light opacity-75"><i class="fas fa-home me-1"></i>Home</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Room List</li>
+                  </ol>
+                </nav>
+              </div>
+              <div class="btn-group">
+                <button
+                  class="btn btn-light"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addRoomModal"
+                >
+                  <i class="fas fa-plus me-2"></i>Add New Room
+                </button>
+              </div>
+            </div>
+          </div>
           <!-- Alert Messages -->
           <c:if test="${not empty sessionScope.message}">
             <div class="alert alert-${sessionScope.messageType} alert-dismissible fade show" role="alert">
@@ -53,15 +74,6 @@ pageEncoding="UTF-8"%>
             <c:remove var="message" scope="session" />
             <c:remove var="messageType" scope="session" />
           </c:if>
-
-          <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb custom-breadcrumb">
-              <li class="breadcrumb-item"><a href="dashboard.jsp">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">
-                Room List
-              </li>
-            </ol>
-          </nav>
 
           <!-- Search and Filter Form -->
           <div class="card shadow mb-4">
@@ -122,18 +134,6 @@ pageEncoding="UTF-8"%>
                 </div>
               </form>
             </div>
-          </div>
-
-          <!-- Page Header -->
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3 mb-0">Room Management</h1>
-            <button
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#addRoomModal"
-            >
-              <i class="fas fa-plus me-2"></i>Add New Room
-            </button>
           </div>
 
           <!-- Room Statistics Cards -->

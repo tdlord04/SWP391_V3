@@ -21,70 +21,9 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-      .kpi-card {
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        border: none;
-        border-radius: 12px;
-      }
-      .kpi-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-      }
-      .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-      }
-      .chart-container {
-        position: relative;
-        height: 350px;
-      }
-      .table-actions .btn {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.875rem;
-      }
-      .status-badge {
-        font-size: 0.75rem;
-        padding: 0.35rem 0.65rem;
-      }
-      .quick-action-btn {
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        transition: all 0.2s ease;
-      }
-      .quick-action-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-      .page-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 12px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-      }
-      .breadcrumb {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        padding: 0.5rem 1rem;
-      }
-      .breadcrumb-item a {
-        color: rgba(255, 255, 255, 0.8);
-        text-decoration: none;
-      }
-      .breadcrumb-item.active {
-        color: white;
-      }
-      .sidebar-wrapper {
-        width: 250px;  /* Ensure a fixed width for the sidebar */
-        transition: margin-left 0.3s ease-in-out;
-      }
-      .sidebar-wrapper.toggled {
-        margin-left: -250px;  /* Hide the sidebar by sliding it out */
+      a {
+        color: rgb(255 255 255);
+        text-decoration: underline;
       }
     </style>
   </head>
@@ -109,7 +48,7 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
         <div class="container-fluid py-4">
           <!-- Page Header -->
-          <div class="page-header">
+          <div class="bg-primary bg-gradient text-white p-4 mb-4 rounded-3">
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <h1 class="h2 mb-2">Dashboard Overview</h1>
@@ -136,7 +75,7 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
           <!-- Summary Cards -->
           <div class="row g-4 mb-4">
             <div class="col-xl-3 col-md-6">
-              <div class="card kpi-card shadow-sm h-100">
+              <div class="card shadow-sm h-100 mb-4">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-start">
                     <div>
@@ -157,7 +96,7 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
               </div>
             </div>
             <div class="col-xl-3 col-md-6">
-              <div class="card kpi-card shadow-sm h-100">
+              <div class="card shadow-sm h-100 mb-4">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-start">
                     <div>
@@ -178,7 +117,7 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
               </div>
             </div>
             <div class="col-xl-3 col-md-6">
-              <div class="card kpi-card shadow-sm h-100">
+              <div class="card shadow-sm h-100 mb-4">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-start">
                     <div>
@@ -199,7 +138,7 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
               </div>
             </div>
             <div class="col-xl-3 col-md-6">
-              <div class="card kpi-card shadow-sm h-100">
+              <div class="card shadow-sm h-100 mb-4">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-start">
                     <div>
