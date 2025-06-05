@@ -25,6 +25,42 @@
             <div class="container-fluid">
             <h2 class="mb-4">Customer Information</h2>
             
+            <!-- Password success message -->
+            <c:if test="${not empty sessionScope.passwordSuccess}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ${sessionScope.passwordSuccess}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <c:remove var="passwordSuccess" scope="session" />
+            </c:if>
+            
+            <!-- Password error message -->
+            <c:if test="${not empty sessionScope.passwordError}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ${sessionScope.passwordError}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <c:remove var="passwordError" scope="session" />
+            </c:if>
+            
+            <!-- Profile update success message -->
+            <c:if test="${not empty sessionScope.profileSuccess}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ${sessionScope.profileSuccess}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <c:remove var="profileSuccess" scope="session" />
+            </c:if>
+            
+            <!-- Profile update error message -->
+            <c:if test="${not empty sessionScope.profileError}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ${sessionScope.profileError}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <c:remove var="profileError" scope="session" />
+            </c:if>
+            
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card shadow-sm rounded text-center p-4 mb-4">
@@ -35,9 +71,14 @@
                         <p><i class="fas fa-envelope me-2"></i>${user.email}</p>
                         <p><i class="fas fa-phone me-2"></i>${user.phone}</p>
                         <p><i class="fas fa-venus-mars me-2"></i>${user.gender}</p>
-                        <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                            <i class="fas fa-edit me-2"></i>Edit Profile
-                        </button>
+                        <div class="d-flex justify-content-center gap-2 mt-3">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                                <i class="fas fa-edit me-2"></i>Edit Info
+                            </button>
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                <i class="fas fa-key me-2"></i>Change Password
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -144,13 +185,13 @@
                     <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="${pageContext.request.contextPath}/customer/updateProfile" method="post" enctype="multipart/form-data">
+                <form action="${pageContext.request.contextPath}/customer/updateProfile" method="post">
                     <div class="modal-body">
                         <input type="hidden" name="id" value="${user.id}">
                         <div class="mb-3">
                             <label for="userName" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="userName" name="userName" value="${user.userName}" readonly>
-                            <small class="text-muted">Username cannot be changed</small>
+                            <input type="text" class="form-control" id="userName" name="userName" value="${user.userName}" required>
+                            <small class="text-muted">Choose a unique username</small>
                         </div>
                         <div class="mb-3">
                             <label for="fullName" class="form-label">Full Name</label>
@@ -180,18 +221,44 @@
                                 <option value="Khác" ${user.gender == 'Khác' ? 'selected' : ''}>Khác</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">New Password (leave blank to keep current)</label>
-                            <input type="password" class="form-control" id="password" name="password">
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
-                        </div>
+                        <!-- Password fields removed and moved to separate modal -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="${pageContext.request.contextPath}/customer/changePassword" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="userId" value="${user.id}">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
                     </div>
                 </form>
             </div>

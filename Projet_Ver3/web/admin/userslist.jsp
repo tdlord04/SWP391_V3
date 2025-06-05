@@ -87,7 +87,7 @@
 <body>
     <div class="d-flex" id="wrapper">
         <jsp:include page="includes/sidebar.jsp">
-            <jsp:param name="activePage" value="users" />
+            <jsp:param name="activePage" value="userslist" />
         </jsp:include>
 
         <!-- Main Content -->
@@ -143,13 +143,14 @@
                                                 <th>Address</th>
                                                 <th>Role</th>
                                                 <th>Status</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:choose>
                                                 <c:when test="${empty users}">
                                                     <tr>
-                                                        <td colspan="10" class="text-center text-muted py-4">No users found or data not loaded.</td>
+                                                        <td colspan="11" class="text-center text-muted py-4">No users found or data not loaded.</td>
                                                     </tr>
                                                 </c:when>
                                                 <c:otherwise>
@@ -175,6 +176,10 @@
                                                                         <span class="badge bg-success">Active</span>
                                                                     </c:otherwise>
                                                                 </c:choose>
+                                                            </td>
+                                                            <td>
+                                                                <a href="${pageContext.request.contextPath}/admin/user/edit?id=${user.id}" class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-edit"></i> Edit</a>
+                                                                <a href="${pageContext.request.contextPath}/admin/user/delete?id=${user.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this user?');"><i class="fas fa-trash"></i> Delete</a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -234,4 +239,4 @@
         }
     </script>
 </body>
-</html> 
+</html>
