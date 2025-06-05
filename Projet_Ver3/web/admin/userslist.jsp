@@ -103,23 +103,18 @@
 
             <div class="container-fluid py-4">
                 <!-- Page Header -->
-                <div class="page-header">
+                <div class="bg-primary bg-gradient text-white p-4 mb-4 rounded-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h1 class="h2 mb-2">User List</h1>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item">
-                                        <a href="#"><i class="fas fa-home me-1"></i>Home</a>
+                                        <a href="#" class="link-light opacity-75"><i class="fas fa-home me-1"></i>Home</a>
                                     </li>
-                                    <li class="breadcrumb-item active">User List</li>
+                                    <li class="breadcrumb-item active text-white">User List</li>
                                 </ol>
                             </nav>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger" onclick="exportToPDF()">
-                                <i class="fas fa-file-pdf me-2"></i>Export PDF
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -196,47 +191,10 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.15/jspdf.plugin.autotable.min.js"></script>
     <script>
         document.getElementById('menu-toggle').addEventListener('click', function() {
             document.getElementById('wrapper').classList.toggle('toggled');
         });
-
-        function exportToPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Add title
-            doc.setFontSize(18);
-            doc.text('User List', 14, 22);
-            
-            // Prepare table data
-            const tableRows = [];
-            const headers = ['ID', 'Username', 'Full Name', 'Birth', 'Gender', 'Email', 'Phone', 'Address', 'Role', 'Status'];
-            
-            const tableBody = document.querySelector('.table tbody');
-            const rows = tableBody.querySelectorAll('tr');
-            
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                if (cells.length > 0) {
-                    const rowData = Array.from(cells).map(cell => cell.textContent.trim());
-                    tableRows.push(rowData);
-                }
-            });
-            
-            // Generate table
-            doc.autoTable({
-                startY: 30,
-                head: [headers],
-                body: tableRows,
-                theme: 'striped'
-            });
-            
-            // Save the PDF
-            doc.save('user_list.pdf');
-        }
     </script>
 </body>
 </html>
