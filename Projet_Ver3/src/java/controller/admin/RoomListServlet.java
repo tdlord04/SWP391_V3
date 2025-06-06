@@ -59,7 +59,7 @@ public class RoomListServlet extends HttpServlet {
         RoomTypeDAO roomTypeDAO = new RoomTypeDAO();
         
         List<Room> allRooms;
-        List<RoomType> roomTypes = roomTypeDAO.getAllRoomTypes();
+        List<RoomType> roomTypes = roomTypeDAO.getAll();
         
         // Convert roomTypeFilter to integer if provided
         Integer roomTypeId = null;

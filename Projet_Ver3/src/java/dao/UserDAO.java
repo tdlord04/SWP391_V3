@@ -13,9 +13,9 @@ import java.util.List;
 import model.User;
 
 public class UserDAO {
-
+    
     private static final String SELECT_ALL_USERS = "SELECT TOP (1000) [id], [user_name], [pass], [full_name], [birth], [gender], [email], [phone], [address], [role], [isDeleted] FROM [dbo].[Users]";
-
+    
     private Connection getConnection() throws SQLException {
         DBContext dbContext = new DBContext();
         if (dbContext.connection == null) {
@@ -37,7 +37,7 @@ public class UserDAO {
         try {
             conn = getConnection(); // Lấy kết nối từ DBContext
             PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT);
-
+            
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getPassword());
             pstmt.setNString(3, user.getFullName()); // Dùng setNString cho NVARCHAR
@@ -48,10 +48,10 @@ public class UserDAO {
             pstmt.setNString(8, user.getAddress()); // Dùng setNString cho NVARCHAR
             pstmt.setNString(9, user.getRole());
             pstmt.setBoolean(10, user.isDeleted());
-
+            
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
-
+            
         } catch (SQLException e) {
             System.err.println("Error adding user: " + e.getMessage());
             e.printStackTrace();
@@ -69,12 +69,12 @@ public class UserDAO {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-
+        
         try {
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(SELECT_ALL_USERS);
-
+            
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getInt("id"));
@@ -129,7 +129,7 @@ public class UserDAO {
             pstmt = conn.prepareStatement(SQL_SELECT_BY_ID);
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
-
+            
             if (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
@@ -151,7 +151,7 @@ public class UserDAO {
         }
         return null;
     }
-
+    
     public User getUserByUsername(String username) {
         String SQL_SELECT_BY_ID = "SELECT id, user_name, pass, full_name, birth, gender, email, phone, address, role, isDeleted FROM Users WHERE user_name = ?";
         Connection conn;
@@ -162,7 +162,7 @@ public class UserDAO {
             pstmt = conn.prepareStatement(SQL_SELECT_BY_ID);
             pstmt.setString(1, username);
             rs = pstmt.executeQuery();
-
+            
             if (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
@@ -198,7 +198,7 @@ public class UserDAO {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(SQL_UPDATE);
-
+            
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getPassword());
             pstmt.setNString(3, user.getFullName());
@@ -213,7 +213,7 @@ public class UserDAO {
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
-
+            
         } catch (SQLException e) {
             System.err.println("Error updating user: " + e.getMessage());
             e.printStackTrace();
@@ -234,11 +234,11 @@ public class UserDAO {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(SQL_SOFT_DELETE);
-
+            
             pstmt.setInt(1, id);
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
-
+            
         } catch (SQLException e) {
             System.err.println("Error soft deleting user: " + e.getMessage());
             e.printStackTrace();
@@ -255,10 +255,10 @@ public class UserDAO {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(SQL_LOGIN);
-
+            
             pstmt.setString(1, username);
             pstmt.setString(2, password);
-
+            
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 User user = new User();
@@ -281,7 +281,7 @@ public class UserDAO {
         }
         return null;
     }
-
+    
     public User loginByEmail(String email, String password) {
         String SQL_LOGIN = "SELECT id, user_name, pass, full_name, birth, gender, email, phone, address, role, isDeleted FROM Users WHERE email = ? AND pass = ? AND isDeleted = 0";
         Connection conn;
@@ -290,10 +290,10 @@ public class UserDAO {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(SQL_LOGIN);
-
+            
             pstmt.setString(1, email);
             pstmt.setString(2, password);
-
+            
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 User user = new User();
@@ -316,7 +316,7 @@ public class UserDAO {
         }
         return null;
     }
-
+    
     public User loginByPhone(String phone, String password) {
         String SQL_LOGIN = "SELECT id, user_name, pass, full_name, birth, gender, email, phone, address, role, isDeleted FROM Users WHERE phone = ? AND pass = ? AND isDeleted = 0";
         Connection conn;
@@ -325,10 +325,10 @@ public class UserDAO {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(SQL_LOGIN);
-
+            
             pstmt.setString(1, phone);
             pstmt.setString(2, password);
-
+            
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 User user = new User();
@@ -374,9 +374,9 @@ public class UserDAO {
         }
         return false;
     }
-
+    
     public static void main(String[] args) {
-        Date birthDate = new Date(2000 - 1900, 1 - 1, 15); 
+        Date birthDate = new Date(2004, 18, 12);
 
         // Tạo user mới
         User newUser = new User(
@@ -391,7 +391,7 @@ public class UserDAO {
                 "customer", // role
                 false // isDeleted
         );
-
+        
         System.out.println(newUser);
     }
 }
